@@ -8,8 +8,8 @@ class Day01: Day {
 
     override fun runAll() {
         println("Day 01 : find product of two/three numbers that sums to 2020")
-        this.partOne(input)
-        this.partTwo(input)
+        println(this.partOne(input))
+        println(this.partTwo(input))
     }
 
     private fun partOne(x: List<Int>): Int {

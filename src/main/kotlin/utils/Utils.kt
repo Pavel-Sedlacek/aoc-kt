@@ -14,6 +14,8 @@ object Utils {
 
     fun readFileAsLines(year: Int, day: Int): List<String> = File(pathFor(day, year)).useLines { it.toList() }
 
+    fun readFileAsMutableList(year: Int, day: Int): MutableList<String> = File(pathFor(day, year)).useLines { it.toMutableList()}
+
     fun readFileAsString(year: Int, day: Int): String = File(pathFor(day, year)).readText()
 
     const val path: String = "src/main/resources/"
