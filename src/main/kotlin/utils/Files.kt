@@ -2,7 +2,7 @@ package utils
 
 import java.io.File
 
-object Utils {
+object Files {
 
 
     //region READ
@@ -17,6 +17,8 @@ object Utils {
     fun readFileAsMutableList(year: Int, day: Int): MutableList<String> = File(pathFor(day, year)).useLines { it.toMutableList()}
 
     fun readFileAsString(year: Int, day: Int): String = File(pathFor(day, year)).readText()
+
+    fun readFileAsMutableLongs(year: Int, day: Int): MutableList<Long> = File(pathFor(day, year)).useLines { it.toList() }.map { it.toLong() }.toMutableList()
 
     const val path: String = "src/main/resources/"
 

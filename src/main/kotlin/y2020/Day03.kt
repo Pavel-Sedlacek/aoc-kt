@@ -2,10 +2,10 @@ package y2020
 
 import utils.Day
 import utils.Helpers.countDiagonalTrees
-import utils.Utils
+import utils.Files
 
 class Day03 : Day {
-    private val input = Utils.readFileAsMutableList(2020, 3)
+    private val input = Files.readFileAsMutableList(2020, 3)
 
     override fun runAll() {
         println("Day 03 : count trees encountered while traversing a forest")

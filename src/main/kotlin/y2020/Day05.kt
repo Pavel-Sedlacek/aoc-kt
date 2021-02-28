@@ -2,10 +2,10 @@ package y2020
 
 import utils.Day
 import utils.Helpers
-import utils.Utils
+import utils.Files
 
 class Day05 : Day {
-    private val input = Helpers.listToBinaryList(Utils.readFileAsMutableList(2020, 5))
+    private val input = Helpers.listToBinaryList(Files.readFileAsMutableList(2020, 5))
 
     override fun runAll() {
         println("Day 05 : plane seats binary location")

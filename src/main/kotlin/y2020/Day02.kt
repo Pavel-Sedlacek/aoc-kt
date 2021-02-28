@@ -1,11 +1,11 @@
 package y2020
 
 import utils.Day
-import utils.Utils
+import utils.Files
 
 class Day02: Day {
 
-    private val input = Utils.readFileAsLines(2020, 2)
+    private val input = Files.readFileAsLines(2020, 2)
 
     override fun runAll() {
         println("Day 02 : check if letter occurrences in string matches range")

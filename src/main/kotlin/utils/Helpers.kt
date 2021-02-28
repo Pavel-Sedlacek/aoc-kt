@@ -40,4 +40,44 @@ object Helpers {
         """\becl:(amb|blu|brn|gry|grn|hzl|oth)\b""",
         """\bpid:[0-9]{9}\b"""
     ).map { it.toRegex() }
+
+    class Bags(lines: List<String>) {
+
+        val bags = lines.associate { line ->
+            val (key, items) = linePattern.matchEntire(line)!!.destructured
+            key to itemPattern.findAll(items).map { match ->
+                val (count, item) = match.destructured
+                count.toInt() to item
+            }.toList()
+        }
+
+        companion object {
+            const val GOAL = "shiny gold"
+            val linePattern = """(\w+ \w+) bags contain (.*)""".toRegex()
+            val itemPattern = """(\d+) (\w+ \w+) bags?""".toRegex()
+        }
+    }
+
+    fun recursiveGo(x: List<String>) : Int {
+        val visitedLines = (0..x.size).toMutableSet()
+        var accumulator = 0
+        var i = 0
+        while (i < x.size) {
+            if (!visitedLines.contains(i)) return -1
+            else visitedLines.remove(i)
+            val currentLine = x[i].split(" ")
+            when (currentLine[0]) {
+                "acc" -> {
+                    accumulator += currentLine[1].toInt()
+                }
+                "jmp" -> {
+                    i += currentLine[1].toInt()
+                    continue
+                }
+            }
+            i++
+        }
+        return accumulator
+    }
+
 }

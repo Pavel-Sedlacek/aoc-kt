@@ -4,7 +4,7 @@ import utils.*
 
 class Day01: Day {
 
-    private val input = Utils.readFileAsInts(2020, 1)
+    private val input = Files.readFileAsInts(2020, 1)
 
     override fun runAll() {
         println("Day 01 : find product of two/three numbers that sums to 2020")

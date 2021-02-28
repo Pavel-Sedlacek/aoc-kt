@@ -2,10 +2,10 @@ package y2020
 
 import utils.Day
 import utils.Helpers
-import utils.Utils
+import utils.Files
 
 class Day04: Day {
-    private val input = Utils.readFileAsLines(2020, 4)
+    private val input = Files.readFileAsLines(2020, 4)
 
     override fun runAll() {
         println("Day 04 : passport validation")
