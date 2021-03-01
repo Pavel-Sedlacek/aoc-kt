@@ -20,7 +20,11 @@ object Files {
 
     fun readFileAsMutableLongs(year: Int, day: Int): MutableList<Long> = File(pathFor(day, year)).useLines { it.toList() }.map { it.toLong() }.toMutableList()
 
-    const val path: String = "src/main/resources/"
+    fun readFileAsIntsDividedBy(year: Int, day: Int, separator: String): MutableList<Int> = File(pathFor(day, year)).readText().split(separator).map { it.toInt() }.toMutableList()
+
+    fun readFileAsLinesSplitBy(year: Int, day: Int, separator: String): List<String> = File(pathFor(day, year)).readText().split(separator)
+
+        const val path: String = "src/main/resources/"
 
     private fun pathFor(day: Int, year: Int): String = "${this.path}/y$year/Day${if (day < 10) "0" else ""}$day.txt"
     //endregion
