@@ -11,8 +11,8 @@ class Day14 : Day {
 
     override fun runAll() {
         println("Day FOURTEEN : memory masking")
-        println("Part One ${partOneFourteen(input)}")
-        println("Part Two ${partTwoFourteen(input)}")
+        println(partOneFourteen(input))
+        println(partTwoFourteen(input))
     }
 
     private fun partTwoFourteen(f: MutableList<String>): Long {

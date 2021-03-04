@@ -1,5 +1,7 @@
 package utils
 
+import java.util.ArrayList
+
 object Helpers {
     fun countDiagonalTrees(x: Int, y: Int, model: MutableList<String>): Long {
         var curX = 0
@@ -108,5 +110,49 @@ object Helpers {
         }
         return addresses
     }
+
+    fun refineEvalOne(input: String): Long {
+        val parts = input.split(" ").toTypedArray()
+        var rv: Long = parts[0].toLong()
+        var i = 1
+        while (i < parts.size) {
+            when (parts[i]) {
+                "+" -> rv += (parts[i + 1]).toLong()
+                "*" -> rv *= (parts[i + 1]).toLong()
+                else -> throw IllegalStateException(parts[i + 1])
+            }
+            i += 2
+        }
+        return rv
+    }
+
+    fun refineEvalTwo(input: String): Long {
+        val parts: MutableList<String> = ArrayList(listOf(*input.split(" ").toTypedArray()))
+        run {
+            var i = 0
+            while (i < parts.size) {
+                if (parts[i] == "+") {
+                    parts[i - 1] = (parts[i - 1].toLong() + parts[i + 1].toLong()).toString()
+                    parts.removeAt(i)
+                    parts.removeAt(i)
+                    i--
+                }
+                i++
+            }
+        }
+        var i = 0
+        while (i < parts.size) {
+            if (parts[i] == "*") {
+                parts[i - 1] = ((parts[i - 1]).toLong() * (parts[i + 1]).toLong()).toString()
+                parts.removeAt(i)
+                parts.removeAt(i)
+                i--
+            }
+            i++
+        }
+        return (parts[0]).toLong()
+    }
+
+    data class Quad<X, Y, Z, W>(val x: X, val y: Y, val z: Z, val w: W)
 
 }
