@@ -5,7 +5,7 @@ import utils.Files
 
 class Day15: Day {
 
-    private val input = Files.readFileAsIntsDividedBy(2020, 15, ",")
+    private val input = Files.readFileAsIntsDividedBy(2020, 15, ",".toRegex())
 
     override fun runAll() {
         println("Day 15 : WTF Elvish game")

@@ -1,6 +1,7 @@
 package utils
 
-import java.util.ArrayList
+import kotlin.math.ceil
+import kotlin.math.sqrt
 
 object Helpers {
     fun countDiagonalTrees(x: Int, y: Int, model: MutableList<String>): Long {
@@ -60,7 +61,7 @@ object Helpers {
         }
     }
 
-    fun recursiveGo(x: List<String>) : Int {
+    fun recursiveGo(x: List<String>): Int {
         val visitedLines = (0..x.size).toMutableSet()
         var accumulator = 0
         var i = 0
@@ -82,7 +83,7 @@ object Helpers {
         return accumulator
     }
 
-    fun gcd(a: Long, b: Long): Long = if (b == 0L) a else gcd(b, a % b)
+    private fun gcd(a: Long, b: Long): Long = if (b == 0L) a else gcd(b, a % b)
     fun lcm(a: Long, b: Long): Long = a / gcd(a, b) * b
 
     fun floatingValues(mask: String, address: String): MutableList<String> {
@@ -154,5 +155,108 @@ object Helpers {
     }
 
     data class Quad<X, Y, Z, W>(val x: X, val y: Y, val z: Z, val w: W)
+
+    private fun Int.isOdd(): Boolean = this % 2 != 0
+
+    fun lengthOfSideWith(n: Int): Int =
+        ceil(sqrt(n.toDouble())).toInt().let {
+            if (it.isOdd()) it
+            else it + 1
+        }
+
+    fun midpointsForSideLength(sideLength: Int): List<Int> {
+        val highestOnSide = sideLength * sideLength
+        val offset = ((sideLength - 1) / 2.0).toInt()
+        return (0..3).map {
+            highestOnSide - (offset + (it * sideLength.dec()))
+        }
+    }
+
+    sealed class Direction {
+        abstract fun move(point: Pair<Int, Int>): Pair<Int, Int>
+        abstract val turn: Direction
+
+        object East : Direction() {
+            override fun move(point: Pair<Int, Int>): Pair<Int, Int> = Pair(point.first + 1, point.second)
+            override val turn = North
+        }
+
+        object North : Direction() {
+            override fun move(point: Pair<Int, Int>): Pair<Int, Int> = Pair(point.first, point.second - 1)
+            override val turn = West
+        }
+
+        object West : Direction() {
+            override fun move(point: Pair<Int, Int>): Pair<Int, Int> = Pair(point.first - 1, point.second)
+            override val turn = South
+        }
+
+        object South : Direction() {
+            override fun move(point: Pair<Int, Int>): Pair<Int, Int> = Pair(point.first, point.second + 1)
+            override val turn = East
+        }
+    }
+
+    class Grid(size: Int) {
+        private var pointer: Pair<Int, Int> = Pair(size / 2, size / 2)
+        private var direction: Direction = Direction.East
+        private val grid: List<IntArray> = (0 until size).map { IntArray(size) }.apply {
+            this[pointer.first][pointer.second] = 1
+        }
+
+        fun generateSpots(): Sequence<Int> =
+            generateSequence(1) {
+                pointer = direction.move(pointer)
+                grid[pointer.first][pointer.second] = sumNeighbors()
+                // Turn if we can.
+                direction = if (atSpot(direction.turn.move(pointer)) == 0) direction.turn else direction
+                atSpot(pointer)
+            }
+
+
+        private fun sumNeighbors(): Int =
+            (pointer.first - 1..pointer.first + 1).map { x ->
+                (pointer.second - 1..pointer.second + 1).map { y ->
+                    atSpot(x, y)
+                }
+            }.flatten()
+                .filterNotNull()
+                .sum()
+
+
+        private fun atSpot(spot: Pair<Int, Int>): Int? =
+            atSpot(spot.first, spot.second)
+
+        private fun atSpot(x: Int, y: Int): Int? =
+            if (x in (grid.indices) && y in (grid.indices)) grid[x][y]
+            else null
+    }
+
+    tailrec fun jump(offsets: MutableList<Int>, mutator: (Int) -> Int, pc: Int = 0, steps: Int = 0): Int =
+        if (pc < 0 || pc >= offsets.size) steps
+        else {
+            val nextPc = pc + offsets[pc]
+            offsets[pc] += mutator(offsets[pc])
+            jump(offsets, mutator, nextPc, steps.inc())
+        }
+
+    tailrec fun reallocate(
+        memory: MutableList<Int>,
+        seen: Map<String, Int> = mutableMapOf(),
+        answer: (Map<String, Int>, String) -> Int
+    ): Int {
+        val hash = memory.joinToString()
+        return if (hash in seen) answer(seen, hash)
+        else {
+            val (index, amount) = memory.withIndex().maxByOrNull { it.value }!!
+            memory[index] = 0
+            repeat(amount) { i ->
+                val idx = (index + i + 1) % memory.size
+                memory[idx] += 1
+            }
+            reallocate(memory, seen + (hash to seen.size), answer)
+        }
+    }
+
 
 }

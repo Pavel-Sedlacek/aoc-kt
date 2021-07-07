@@ -20,7 +20,7 @@ object Files {
 
     fun readFileAsMutableLongs(year: Int, day: Int): MutableList<Long> = File(pathFor(day, year)).useLines { it.toList() }.map { it.toLong() }.toMutableList()
 
-    fun readFileAsIntsDividedBy(year: Int, day: Int, separator: String): MutableList<Int> = File(pathFor(day, year)).readText().split(separator).map { it.toInt() }.toMutableList()
+    fun readFileAsIntsDividedBy(year: Int, day: Int, separator: Regex): MutableList<Int> = File(pathFor(day, year)).readText().split(separator).map { it.toInt() }.toMutableList()
 
     fun readFileAsLinesSplitBy(year: Int, day: Int, separator: String): List<String> = File(pathFor(day, year)).readText().split(separator)
 
