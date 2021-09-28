@@ -1,5 +1,6 @@
 package utils
 
+import java.security.MessageDigest
 import kotlin.math.ceil
 import kotlin.math.sqrt
 
@@ -24,8 +25,8 @@ object Helpers {
         return curSum
     }
 
-    fun listToBinaryList(StringList: MutableList<String>): MutableList<String> {
-        var binList = StringList
+    fun listToBinaryList(stringList: MutableList<String>): MutableList<String> {
+        val binList = stringList.toMutableList()
         for (i in 0 until binList.size) {
             binList[i] = binList[i].replace("F", "0").replace("B", "1").replace("L", "0").replace("R", "1")
         }
@@ -258,5 +259,46 @@ object Helpers {
         }
     }
 
+    fun String.md5(): ByteArray = MessageDigest.getInstance("MD5").digest(this.toByteArray())
+    fun ByteArray.toHex() = joinToString(separator = "") { byte -> "%02x".format(byte) }
 
+    fun initLights(): MutableList<Light> {
+        val z = mutableListOf<Light>()
+        for (x in 0 until 1000) {
+            for (y in 0 until 1000) {
+                z.add(Light(x, y, 0))
+            }
+        }
+        return z
+    }
+
+    data class Light(val x: Int, val y: Int, var state: Int) {
+        fun isInRange(xFrom: Int, xTo: Int, yFrom: Int, yTo: Int): Boolean = x in (xFrom)..xTo && y in (yFrom)..yTo
+
+        fun off1() {
+            state = 0
+        }
+
+        fun on1() {
+            state = 1
+        }
+
+        fun toggle1() {
+            state = if (state == 1) 0 else 1
+        }
+
+        fun off2() {
+            if (state > 0) state--
+        }
+
+        fun on2() {
+            state++
+        }
+
+        fun toggle2() {
+            state += 2
+        }
+    }
+
+    data class Coordinates(var x: Int, var y: Int)
 }
