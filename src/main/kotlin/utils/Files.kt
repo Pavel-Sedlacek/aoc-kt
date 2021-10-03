@@ -27,6 +27,8 @@ object Files {
         const val path: String = "src/main/resources/"
 
     private fun pathFor(day: Int, year: Int): String = "${this.path}/y$year/Day${if (day < 10) "0" else ""}$day.txt"
+
+    fun readAsInInt(year: Int, day: Int): Int = File(pathFor(day, year)).readText().trim().toInt()
     //endregion
 
 }
