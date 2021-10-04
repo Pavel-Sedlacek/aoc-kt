@@ -302,6 +302,85 @@ object Helpers {
 
     data class Coordinates(var x: Int, var y: Int)
 
+    fun String.toDecimal(): Int {
+        var sum = 0
+        this.reversed().forEachIndexed { k, v ->
+            sum += v.toString().toInt() * pow(2, k)
+        }
+        return sum
+    }
+
+    fun Int.toBinary(binaryString: String = ""): String {
+        while (this > 0) {
+            val temp = "${binaryString}${this % 2}"
+            return (this / 2).toBinary(temp)
+        }
+        return binaryString.reversed()
+    }
+
+    fun pow(base: Int, exponent: Int) = Math.pow(base.toDouble(), exponent.toDouble()).toInt()
+
+    fun Int.not(): Int =
+        this.toBinary().padStart(16, '0').let { it.map { if (it == '0') 1 else 0 }.joinToString("").toDecimal() }
+
+    data class Gate(val expression: String) {
+
+        private var cached: Int? = null
+
+        fun isComputed(): Boolean = cached != null
+
+        fun retrieve(): Int? {
+            return if (cached == null) null
+            else if (cached!! < 0) 0
+            else if (cached!! > 65535) 65535
+            else cached!!
+        }
+
+        fun compute(computedGates: MutableMap<String, Gate>) {
+            val components = expression.split(" ").map { it.trim() }
+            when (components.size) {
+                1 -> {
+                    // Number or gate copy
+                    cached = if (components[0].matches("[0-9]*".toRegex()))
+                        components[0].toInt()
+                    else if (computedGates[components[0]]?.isComputed() == true)
+                        computedGates[components[0]]!!.retrieve()
+                    else return
+                }
+                2 -> {
+                    // not + gate or number
+                    if (components[0] == "NOT")
+                        cached = if (components[1].matches("[0-9]*".toRegex())) components[1].toInt().not()
+                        else if (computedGates[components[1]]?.isComputed() == true) computedGates[components[1]]!!.retrieve()!!.not()
+                        else return
+
+                }
+                3 -> {
+                    // AND, OR , RSHIFT, LSHIFT
+
+                    val left: Int = if (components[0].matches("[0-9]*".toRegex())) components[0].toInt()
+                    else if (computedGates[components[0]]?.isComputed() == true) computedGates[components[0]]!!.retrieve()!!
+                    else return
+
+
+                    val right = if (components[2].matches("[0-9]*".toRegex())) components[2].toInt()
+                    else if (computedGates[components[2]]?.isComputed() == true) computedGates[components[2]]!!.retrieve()!!
+                    else return
+
+                    cached = when (components[1]) {
+                        "AND" -> left.and(right)
+                        "OR" -> left.or(right)
+                        "RSHIFT" -> left.shr(right)
+                        "LSHIFT" -> left.shl(right)
+                        else -> return
+                    }
+                }
+            }
+            return
+        }
+    }
+
+
     fun <T> Set<T>.allPermutations(): Set<List<T>> {
         if (this.isEmpty()) return emptySet()
 
@@ -323,5 +402,9 @@ object Helpers {
     fun Any.log() {
         println(this)
     }
-}
 
+    fun String.increment(): String = (this.last() + 1).let {
+        if (it > 'z') this.substring(0 until this.length - 1).increment() + 'a'
+        else this.substring(0 until this.length - 1) + it
+    }
+}
