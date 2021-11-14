@@ -1,9 +1,8 @@
 package utils
 
-import utils.collections.Coordinates
+import java.security.MessageDigest
 import kotlin.math.ceil
 import kotlin.math.sqrt
-import kotlin.reflect.KFunction1
 
 object Helpers {
     fun countDiagonalTrees(x: Int, y: Int, model: MutableList<String>): Long {
@@ -25,6 +24,26 @@ object Helpers {
         }
         return curSum
     }
+
+    fun listToBinaryList(stringList: MutableList<String>): MutableList<String> {
+        val binList = stringList.toMutableList()
+        for (i in 0 until binList.size) {
+            binList[i] = binList[i].replace("F", "0").replace("B", "1").replace("L", "0").replace("R", "1")
+        }
+        return binList
+    }
+
+    val passportExpectedFields = listOf("byr:", "iyr:", "eyr:", "hgt:", "hcl:", "ecl:", "pid:")
+
+    val passportFieldPatterns = listOf(
+        """\bbyr:(19[2-9][0-9]|200[0-2])\b""",
+        """\biyr:(201[0-9]|2020)\b""",
+        """\beyr:(202[0-9]|2030)\b""",
+        """\bhgt:((1([5-8][0-9]|9[0-3])cm)|((59|6[0-9]|7[0-6])in))\b""",
+        """\bhcl:#[0-9a-f]{6}\b""",
+        """\becl:(amb|blu|brn|gry|grn|hzl|oth)\b""",
+        """\bpid:[0-9]{9}\b"""
+    ).map { it.toRegex() }
 
     class Bags(lines: List<String>) {
 
@@ -64,6 +83,9 @@ object Helpers {
         }
         return accumulator
     }
+
+    private fun gcd(a: Long, b: Long): Long = if (b == 0L) a else gcd(b, a % b)
+    fun lcm(a: Long, b: Long): Long = a / gcd(a, b) * b
 
     fun floatingValues(mask: String, address: String): MutableList<String> {
         val addresses = mutableListOf<String>()
@@ -132,6 +154,10 @@ object Helpers {
         }
         return (parts[0]).toLong()
     }
+
+    data class Quad<X, Y, Z, W>(val x: X, val y: Y, val z: Z, val w: W)
+
+    private fun Int.isOdd(): Boolean = this % 2 != 0
 
     fun lengthOfSideWith(n: Int): Int =
         ceil(sqrt(n.toDouble())).toInt().let {
@@ -233,6 +259,9 @@ object Helpers {
         }
     }
 
+    fun String.md5(): ByteArray = MessageDigest.getInstance("MD5").digest(this.toByteArray())
+    fun ByteArray.toHex() = joinToString(separator = "") { byte -> "%02x".format(byte) }
+
     fun initLights(): MutableList<Light> {
         val z = mutableListOf<Light>()
         for (x in 0 until 1000) {
@@ -242,6 +271,7 @@ object Helpers {
         }
         return z
     }
+
     data class Light(val x: Int, val y: Int, var state: Int) {
         fun isInRange(xFrom: Int, xTo: Int, yFrom: Int, yTo: Int): Boolean = x in (xFrom)..xTo && y in (yFrom)..yTo
 
@@ -281,6 +311,99 @@ object Helpers {
             val fn: KFunction1<Light, Unit> = when {
                 line[0] == "toggle" -> toggle
                 else -> if (line[1] == "on") on else off
+
+    data class Coordinates(var x: Int, var y: Int)
+
+    fun String.toDecimal(): Int {
+        var sum = 0
+        this.reversed().forEachIndexed { k, v ->
+            sum += v.toString().toInt() * pow(2, k)
+        }
+        return sum
+    }
+
+    fun Int.toBinary(binaryString: String = ""): String {
+        while (this > 0) {
+            val temp = "${binaryString}${this % 2}"
+            return (this / 2).toBinary(temp)
+        }
+        return binaryString.reversed()
+    }
+
+    fun pow(base: Int, exponent: Int) = Math.pow(base.toDouble(), exponent.toDouble()).toInt()
+
+    fun Int.not(): Int =
+        this.toBinary().padStart(16, '0').let { it.map { if (it == '0') 1 else 0 }.joinToString("").toDecimal() }
+
+    data class Gate(val expression: String) {
+
+        private var cached: Int? = null
+
+        fun isComputed(): Boolean = cached != null
+
+        fun retrieve(): Int? {
+            return if (cached == null) null
+            else if (cached!! < 0) 0
+            else if (cached!! > 65535) 65535
+            else cached!!
+        }
+
+        fun compute(computedGates: MutableMap<String, Gate>) {
+            val components = expression.split(" ").map { it.trim() }
+            when (components.size) {
+                1 -> {
+                    // Number or gate copy
+                    cached = if (components[0].matches("[0-9]*".toRegex()))
+                        components[0].toInt()
+                    else if (computedGates[components[0]]?.isComputed() == true)
+                        computedGates[components[0]]!!.retrieve()
+                    else return
+                }
+                2 -> {
+                    // not + gate or number
+                    if (components[0] == "NOT")
+                        cached = if (components[1].matches("[0-9]*".toRegex())) components[1].toInt().not()
+                        else if (computedGates[components[1]]?.isComputed() == true) computedGates[components[1]]!!.retrieve()!!.not()
+                        else return
+
+                }
+                3 -> {
+                    // AND, OR , RSHIFT, LSHIFT
+
+                    val left: Int = if (components[0].matches("[0-9]*".toRegex())) components[0].toInt()
+                    else if (computedGates[components[0]]?.isComputed() == true) computedGates[components[0]]!!.retrieve()!!
+                    else return
+
+
+                    val right = if (components[2].matches("[0-9]*".toRegex())) components[2].toInt()
+                    else if (computedGates[components[2]]?.isComputed() == true) computedGates[components[2]]!!.retrieve()!!
+                    else return
+
+                    cached = when (components[1]) {
+                        "AND" -> left.and(right)
+                        "OR" -> left.or(right)
+                        "RSHIFT" -> left.shr(right)
+                        "LSHIFT" -> left.shl(right)
+                        else -> return
+                    }
+                }
+            }
+            return
+        }
+    }
+
+
+    fun <T> Set<T>.allPermutations(): Set<List<T>> {
+        if (this.isEmpty()) return emptySet()
+
+        fun <T> List<T>._allPermutations(): Set<List<T>> {
+            if (this.isEmpty()) return setOf(emptyList())
+
+            val result: MutableSet<List<T>> = mutableSetOf()
+            for (i in this.indices) {
+                (this - this[i])._allPermutations().forEach { item ->
+                    result.add(item + this[i])
+                }
             }
 
             (if (fn == toggle) 1 else 2).also {
@@ -290,5 +413,16 @@ object Helpers {
             lights.forEach { if (it.isInRange(from.x, to.x, from.y, to.y)) fn.invoke(it) }
         }
     }.let { lights -> lights.sumBy { it.state } }
+        return this.toList()._allPermutations()
+    }
+
+    fun Any.log() {
+        println(this)
+    }
+
+    fun String.increment(): String = (this.last() + 1).let {
+        if (it > 'z') this.substring(0 until this.length - 1).increment() + 'a'
+        else this.substring(0 until this.length - 1) + it
+    }
 }
 
