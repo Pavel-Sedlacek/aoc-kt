@@ -92,7 +92,7 @@ fun playGame2(players: Pair<Queue<Int>, Queue<Int>>): Pair<Boolean, Int> {
         }
     }
     var output = 0
-    if (! winner) for (i in player2.size downTo 1) output += i * player2.poll()
+    if (!winner) for (i in player2.size downTo 1) output += i * player2.poll()
     else for (i in player1.size downTo 1) output += i * player1.poll()
     return winner to output
 }

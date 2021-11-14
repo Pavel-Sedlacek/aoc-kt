@@ -1,7 +1,6 @@
 package utils.readers
 
 import utils.collections.asCharLines
-import java.io.File
 
 fun String.asBytes(): ByteArray = this.trim().toByteArray()
 

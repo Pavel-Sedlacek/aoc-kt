@@ -8,7 +8,7 @@ class Day04 : Day<Int> {
 
     private val input = file
 
-    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(input: String): Int {
         var x = 0

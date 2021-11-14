@@ -6,8 +6,8 @@ class Day12 : Day<Int> {
 
     private val input = file
 
-    override fun runAll() = super.run({partOne(input)}, { partTwo(input) })
-        // TODO partTwo
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    // TODO partTwo
 
 
     fun partOne(input: String) = Regex("-?[0-9]+").findAll(input).map { it.value.toInt() }.sum()

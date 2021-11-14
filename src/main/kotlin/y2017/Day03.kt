@@ -11,7 +11,7 @@ class Day03 : Day<Int> {
 
     private val input = file.asInt()
 
-    override fun runAll() = super.run({partOne(input)}, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     fun partOne(input: Int): Int {
         val sideLength = lengthOfSideWith(input)

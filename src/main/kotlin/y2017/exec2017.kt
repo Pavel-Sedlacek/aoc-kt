@@ -3,7 +3,7 @@ package y2017
 import utils.YearExecutor
 
 
-object Exec2017: YearExecutor {
+object Exec2017 : YearExecutor {
 
     override fun execute() {
         val days = listOf(

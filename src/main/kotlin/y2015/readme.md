@@ -1,4 +1,5 @@
 # Advent of Code - 2015
+
 ## Pavel Sedláček - Knism
 
 ### Days

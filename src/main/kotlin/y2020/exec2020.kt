@@ -1,9 +1,8 @@
 package y2020
 
-import utils.Day
 import utils.YearExecutor
 
-object Exec2020: YearExecutor {
+object Exec2020 : YearExecutor {
     //TODO => 11, 16. 19, 20, 21, 22, 23, 24, 25
 
     override fun execute() {

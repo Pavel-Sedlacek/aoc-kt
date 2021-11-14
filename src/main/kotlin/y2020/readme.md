@@ -1,4 +1,5 @@
 # Advent of Code - 2020
+
 ## Pavel Sedláček - Knism
 
 ### Days

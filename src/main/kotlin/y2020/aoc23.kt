@@ -21,7 +21,7 @@ class Day23 {
 fun load(): List<LLNode> {
     val cups = File("src/main/resources/Day23.txt").readText().chunked(1).map { LLNode(it.toInt(), null) }
     for (i in cups.indices) {
-        cups[i].next = cups[(i+1)%cups.size]
+        cups[i].next = cups[(i + 1) % cups.size]
     }
     return cups
 }

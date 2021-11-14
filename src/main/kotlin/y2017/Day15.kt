@@ -4,7 +4,7 @@ import utils.Day
 
 class Day15 : Day<Int> {
 
-    override fun runAll() = super.run({partOne()}, {-1})
+    override fun runAll() = super.run({ partOne() }, { -1 })
 
     private fun partOne(): Int {
         var iterationA: Long = A.toLong()

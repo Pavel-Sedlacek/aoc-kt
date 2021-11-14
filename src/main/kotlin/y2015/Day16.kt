@@ -3,7 +3,6 @@ package y2015
 import utils.Day
 import utils.Helpers.MatchResult
 import utils.Helpers.Matches
-import utils.common.log
 import utils.readers.asLines
 
 

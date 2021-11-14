@@ -1,14 +1,13 @@
 package y2020
 
 import utils.Day
-import utils.readers.Reader
 import utils.readers.asIntsDividedBy
 
-class Day15: Day<Int> {
+class Day15 : Day<Int> {
 
     private val input = file.asIntsDividedBy(",".toRegex())
 
-    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(input: List<Int>): Int {
         var x = input

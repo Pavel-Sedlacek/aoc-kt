@@ -9,15 +9,15 @@ var text = values[1].split("\n")
 
 fun main() {
     println("Day NINETEEN : rules validation")
-    println("Part One ${text.count{isMatch(rules1, it, listOf(0))}}")
-    println("Part Two ${text.count{isMatch(rules2, it, listOf(0))}}")
+    println("Part One ${text.count { isMatch(rules1, it, listOf(0)) }}")
+    println("Part Two ${text.count { isMatch(rules2, it, listOf(0)) }}")
 }
 
 class Day19 {
     fun run() {
         println("Day NINETEEN : rules validation")
-        println("Part One ${text.count{isMatch(rules1, it, listOf(0))}}")
-        println("Part Two ${text.count{isMatch(rules2, it, listOf(0))}}")
+        println("Part One ${text.count { isMatch(rules1, it, listOf(0)) }}")
+        println("Part Two ${text.count { isMatch(rules2, it, listOf(0)) }}")
     }
 }
 

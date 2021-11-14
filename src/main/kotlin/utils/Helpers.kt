@@ -2,8 +2,6 @@ package utils
 
 import utils.collections.Coordinates
 import utils.common.not
-import utils.common.toDecimal
-import java.security.MessageDigest
 import kotlin.math.ceil
 import kotlin.math.sqrt
 import kotlin.reflect.KFunction1
@@ -223,7 +221,7 @@ object Helpers {
     tailrec fun reallocate(
         memory: MutableList<Int>,
         seen: Map<String, Int> = mutableMapOf(),
-        answer: (Map<String, Int>, String) -> Int
+        answer: (Map<String, Int>, String) -> Int,
     ): Int {
         val hash = memory.joinToString()
         return if (hash in seen) answer(seen, hash)
@@ -304,7 +302,8 @@ object Helpers {
                     // not + gate or number
                     if (components[0] == "NOT")
                         cached = if (components[1].matches("[0-9]*".toRegex())) components[1].toInt().not()
-                        else if (computedGates[components[1]]?.isComputed() == true) computedGates[components[1]]!!.retrieve()!!.not()
+                        else if (computedGates[components[1]]?.isComputed() == true) computedGates[components[1]]!!.retrieve()!!
+                            .not()
                         else return
 
                 }
@@ -337,7 +336,7 @@ object Helpers {
         input: List<List<String>>,
         off: KFunction1<Light, Unit>,
         on: KFunction1<Light, Unit>,
-        toggle: KFunction1<Light, Unit>
+        toggle: KFunction1<Light, Unit>,
     ): Int = initLights().also { lights ->
         input.onEach { line ->
             val from = Coordinates(0, 0)
@@ -368,7 +367,7 @@ object Helpers {
         var restRemaining: Int = 0,
         var speedRemaining: Int = speedDuration,
         var state: State = State.SPEEDING,
-        var score: Int = 0
+        var score: Int = 0,
     ) {
         fun move() {
             if (state == State.SPEEDING) {
@@ -410,7 +409,7 @@ object Helpers {
         val goldfish: Int,
         val trees: Int,
         val cars: Int,
-        val perfumes: Int
+        val perfumes: Int,
     ) {
         fun match(other: Matches): MatchResult {
 
