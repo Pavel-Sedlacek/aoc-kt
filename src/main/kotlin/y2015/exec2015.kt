@@ -1,18 +1,15 @@
 package y2015
 
-import utils.Day
+import utils.YearExecutor
 
+object Exec2015 : YearExecutor {
 
-object Exec2015 {
-
-    fun execute() {
+    override fun execute() {
         val days = listOf(
-//            Day01(), Day02(), Day03(), Day04()
-        Day05(), Day06()
+            Day01(), Day02(), Day03(), Day04(), Day05(), Day06(), Day08(), Day09(), Day10()
         )
-
-        for (day: Day in days)
-            day.runAll()
+        println("2015")
+        for (day in days) day.runAll()
     }
 }
 

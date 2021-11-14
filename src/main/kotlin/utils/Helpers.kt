@@ -1,8 +1,9 @@
 package utils
 
-import java.security.MessageDigest
+import utils.collections.Coordinates
 import kotlin.math.ceil
 import kotlin.math.sqrt
+import kotlin.reflect.KFunction1
 
 object Helpers {
     fun countDiagonalTrees(x: Int, y: Int, model: MutableList<String>): Long {
@@ -24,26 +25,6 @@ object Helpers {
         }
         return curSum
     }
-
-    fun listToBinaryList(stringList: MutableList<String>): MutableList<String> {
-        val binList = stringList.toMutableList()
-        for (i in 0 until binList.size) {
-            binList[i] = binList[i].replace("F", "0").replace("B", "1").replace("L", "0").replace("R", "1")
-        }
-        return binList
-    }
-
-    val passportExpectedFields = listOf("byr:", "iyr:", "eyr:", "hgt:", "hcl:", "ecl:", "pid:")
-
-    val passportFieldPatterns = listOf(
-        """\bbyr:(19[2-9][0-9]|200[0-2])\b""",
-        """\biyr:(201[0-9]|2020)\b""",
-        """\beyr:(202[0-9]|2030)\b""",
-        """\bhgt:((1([5-8][0-9]|9[0-3])cm)|((59|6[0-9]|7[0-6])in))\b""",
-        """\bhcl:#[0-9a-f]{6}\b""",
-        """\becl:(amb|blu|brn|gry|grn|hzl|oth)\b""",
-        """\bpid:[0-9]{9}\b"""
-    ).map { it.toRegex() }
 
     class Bags(lines: List<String>) {
 
@@ -83,9 +64,6 @@ object Helpers {
         }
         return accumulator
     }
-
-    private fun gcd(a: Long, b: Long): Long = if (b == 0L) a else gcd(b, a % b)
-    fun lcm(a: Long, b: Long): Long = a / gcd(a, b) * b
 
     fun floatingValues(mask: String, address: String): MutableList<String> {
         val addresses = mutableListOf<String>()
@@ -154,10 +132,6 @@ object Helpers {
         }
         return (parts[0]).toLong()
     }
-
-    data class Quad<X, Y, Z, W>(val x: X, val y: Y, val z: Z, val w: W)
-
-    private fun Int.isOdd(): Boolean = this % 2 != 0
 
     fun lengthOfSideWith(n: Int): Int =
         ceil(sqrt(n.toDouble())).toInt().let {
@@ -259,9 +233,6 @@ object Helpers {
         }
     }
 
-    fun String.md5(): ByteArray = MessageDigest.getInstance("MD5").digest(this.toByteArray())
-    fun ByteArray.toHex() = joinToString(separator = "") { byte -> "%02x".format(byte) }
-
     fun initLights(): MutableList<Light> {
         val z = mutableListOf<Light>()
         for (x in 0 until 1000) {
@@ -271,7 +242,6 @@ object Helpers {
         }
         return z
     }
-
     data class Light(val x: Int, val y: Int, var state: Int) {
         fun isInRange(xFrom: Int, xTo: Int, yFrom: Int, yTo: Int): Boolean = x in (xFrom)..xTo && y in (yFrom)..yTo
 
@@ -299,29 +269,26 @@ object Helpers {
             state += 2
         }
     }
-
-    data class Coordinates(var x: Int, var y: Int)
-
-    fun <T> Set<T>.allPermutations(): Set<List<T>> {
-        if (this.isEmpty()) return emptySet()
-
-        fun <T> List<T>._allPermutations(): Set<List<T>> {
-            if (this.isEmpty()) return setOf(emptyList())
-
-            val result: MutableSet<List<T>> = mutableSetOf()
-            for (i in this.indices) {
-                (this - this[i])._allPermutations().forEach { item ->
-                    result.add(item + this[i])
-                }
+    fun solver(
+        input: List<List<String>>,
+        off: KFunction1<Light, Unit>,
+        on: KFunction1<Light, Unit>,
+        toggle: KFunction1<Light, Unit>
+    ): Int = initLights().also { lights ->
+        input.onEach { line ->
+            val from = Coordinates(0, 0)
+            val to = Coordinates(0, 0)
+            val fn: KFunction1<Light, Unit> = when {
+                line[0] == "toggle" -> toggle
+                else -> if (line[1] == "on") on else off
             }
-            return result
+
+            (if (fn == toggle) 1 else 2).also {
+                line[it].split(",").also { ints -> from.x = ints[0].toInt(); from.y = ints[1].toInt() }
+                line[it + 2].split(",").also { ints -> to.x = ints[0].toInt(); to.y = ints[1].toInt() }
+            }
+            lights.forEach { if (it.isInRange(from.x, to.x, from.y, to.y)) fn.invoke(it) }
         }
-
-        return this.toList()._allPermutations()
-    }
-
-    fun Any.log() {
-        println(this)
-    }
+    }.let { lights -> lights.sumBy { it.state } }
 }
 

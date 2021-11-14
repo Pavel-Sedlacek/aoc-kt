@@ -1,5 +1,5 @@
 package utils
 
-interface Exec {
+interface YearExecutor {
     fun execute()
 }
