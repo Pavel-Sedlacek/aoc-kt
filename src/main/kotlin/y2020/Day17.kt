@@ -1,32 +1,31 @@
 package y2020
 
 import utils.Day
-import utils.Files
-import utils.Helpers.Quad
+import utils.collections.Quad
+import utils.readers.asCharLines
 
-class Day17: Day {
+class Day17 : Day<Int> {
+
+    val input = file.asCharLines()
+
     override fun runAll() {
-
-        val lines = Files.readFileAsLines(2020,17).map { it.toCharArray().toList() }
 
         val grid = mutableMapOf<Triple<Int, Int, Int>, Char>()
         val grid2 = mutableMapOf<Quad<Int, Int, Int, Int>, Char>()
-        for (y in lines.indices) {
-            for (x in lines[0].indices) {
-                grid[Triple(x, y, 0)] = lines[x][y]
-                grid2[Quad(x, y, 0, 0)] = lines[x][y]
+
+        for (y in input.indices) {
+            for (x in input[y].indices) {
+                grid[Triple(x, y, 0)] = input[x][y]
+                grid2[Quad(x, y, 0, 0)] = input[x][y]
             }
         }
 
-        val cycles = 6
-        repeat(cycles) {
+        repeat(6) {
             partOne(grid)
             partTwo(grid2)
         }
 
-        println("Day 17 : nDimensional game of life")
-        println(grid.values.count { it == '#' })
-        println(grid2.values.count { it == '#' })
+        super.run({grid.values.count { it == '#' }}, {grid2.values.count { it == '#'}})
     }
 
     private fun partOne(grid: MutableMap<Triple<Int, Int, Int>, Char>) {

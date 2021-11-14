@@ -1,27 +1,23 @@
 package y2020
 
 import utils.Day
-import utils.Helpers
-import utils.Files
+import utils.collections.toBinaryList
+import utils.readers.asLines
 
-class Day05 : Day {
-    private val input = Helpers.listToBinaryList(Files.readFileAsMutableList(2020, 5))
+class Day05 : Day<Int> {
+    private val input = file.asLines().toBinaryList()
 
-    override fun runAll() {
-        println("Day 05 : plane seats binary location")
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
-        println(this.partOne(input))
-        println(this.partTwo(input))
-    }
-
-    private fun partOne(x: MutableList<String>): Int =
-        x.fold(0) { max, element ->
+    private fun partOne(x: List<String>): Int {
+        return x.fold(0) { max, element ->
             val iNumber = Integer.parseInt(element.substring(0, 7), 2) * 8 + Integer.parseInt(element.substring(7), 2)
             if (iNumber > max) iNumber
             else max
         }
+    }
 
-    private fun partTwo(x: MutableList<String>): Int {
+    private fun partTwo(x: List<String>): Int {
         val z = (55..890).toMutableList()
         x.forEach { i ->
             z.remove(

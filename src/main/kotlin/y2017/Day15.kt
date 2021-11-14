@@ -1,11 +1,10 @@
+package y2017
+
 import utils.Day
 
-class Day15 : Day {
+class Day15 : Day<Int> {
 
-    override fun runAll() {
-        println("Day 15 : RNG dueling")
-        println(this.partOne())
-    }
+    override fun runAll() = super.run({partOne()}, {-1})
 
     private fun partOne(): Int {
         var iterationA: Long = A.toLong()

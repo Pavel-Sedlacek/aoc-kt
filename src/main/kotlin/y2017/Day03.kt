@@ -1,21 +1,17 @@
 package y2017
 
 import utils.Day
-import utils.Files
 import utils.Helpers
 import utils.Helpers.lengthOfSideWith
 import utils.Helpers.midpointsForSideLength
+import utils.readers.asInt
 import kotlin.math.abs
 
-class Day03 : Day {
+class Day03 : Day<Int> {
 
-    private val input = Files.readFileAsInts(2017, 3).singleOrNull()!!
+    private val input = file.asInt()
 
-    override fun runAll() {
-        println("Day 03 : Memory distance")
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({partOne(input)}, { partTwo(input) })
 
     fun partOne(input: Int): Int {
         val sideLength = lengthOfSideWith(input)

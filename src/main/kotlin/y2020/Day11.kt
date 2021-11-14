@@ -1,24 +1,26 @@
 package y2020
 
 import utils.Day
-import utils.Files
+import utils.readers.asLines
 
-class Day11: Day {
+class Day11 : Day<Int> {
 
-    private val input = Files.readFileAsMutableList(2020, 11)
-    val pairs = arrayListOf(Pair(1,0), Pair(-1,0), Pair(0,-1), Pair(0,1), Pair(-1,1), Pair(1,-1,), Pair(-1,-1), Pair(1,1))
-    var x = Array(5) {CharArray(5) {'.'} }
+    private val input = file.asLines()
+    val pairs = arrayListOf(Pair(1, 0),
+        Pair(-1, 0),
+        Pair(0, -1),
+        Pair(0, 1),
+        Pair(-1, 1),
+        Pair(1, -1),
+        Pair(-1, -1),
+        Pair(1, 1))
+    var x = Array(5) { CharArray(5) { '.' } }
 
-    override fun runAll() {
-        println("Day 11 : Game Of Life (boat : game of seats)")
-
-        println(this.partOne())
-        println(this.partTwo())
-    }
+    override fun runAll() = super.run({ partOne() }, { partTwo() })
 
     //TODO
-    private fun partOne() : Int = 0
-    private fun partTwo(): Int = 0
+    private fun partOne(): Int = -1
+    private fun partTwo(): Int = -1
 
 //        realHard@while (true) {
 //            val previous = x

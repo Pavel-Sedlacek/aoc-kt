@@ -1,22 +1,20 @@
 package y2017
 
 import utils.Day
-import utils.Files
+import utils.readers.Reader
+import utils.readers.asLines
 
-class Day02 : Day {
+class Day02 : Day<Int> {
 
-    private val input = Files.readFileAsLines(2017, 2).map { it.split("\\s".toRegex()).map { it.toInt() } }
+    private val input = file.asLines().map { it.split("\\s".toRegex()).map { it.toInt() } }
 
-    override fun runAll() {
-        println("Day 02 : spreadsheet folding")
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
 
     private fun partOne(input: List<List<Int>>) = input.fold(0) { acc, c ->
         acc + c.maxOrNull()?.minus(c.minOrNull()!!)!!
     }
 
+    // FIXME PLS
     private fun partTwo(input: List<List<Int>>): Int {
         var sum = 0
         for (i in input) {

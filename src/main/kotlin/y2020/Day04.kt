@@ -1,22 +1,19 @@
 package y2020
 
 import utils.Day
-import utils.Helpers
-import utils.Files
+import utils.Patterns.passportExpectedFields
+import utils.Patterns.passportFieldPatterns
+import utils.readers.asLines
 
-class Day04: Day {
-    private val input = Files.readFileAsLines(2020, 4)
+class Day04 : Day<Int> {
+    private val input = file.asLines()
 
-    override fun runAll() {
-        println("Day 04 : passport validation")
-        println(this.partOne(input))
-        println(this.partTwo(input))
-    }
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(passports: List<String>): Int =
-        passports.count { passport -> Helpers.passportExpectedFields.all { passport.contains(it)} }
+        passports.count { passport -> passportExpectedFields.all { passport.contains(it) } }
 
     private fun partTwo(passports: List<String>): Int =
-        passports.count { passport -> Helpers.passportFieldPatterns.all { it.containsMatchIn(passport) } }
+        passports.count { passport -> passportFieldPatterns.all { it.containsMatchIn(passport) } }
 
 }

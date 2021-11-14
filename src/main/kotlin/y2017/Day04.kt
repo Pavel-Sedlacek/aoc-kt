@@ -1,17 +1,14 @@
 package y2017
 
 import utils.Day
-import utils.Files
+import utils.readers.Reader
+import utils.readers.asLines
 
-class Day04 : Day {
+class Day04 : Day<Int> {
 
-    private val input = Files.readFileAsLines(2017, 4)
+    private val input = file.asLines()
 
-    override fun runAll() {
-        println("Day 04 : passphrases")
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
 
     private fun partOne(values: List<String>) =
         values.map { it.split("\\s".toRegex()) }

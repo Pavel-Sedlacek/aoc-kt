@@ -1,17 +1,13 @@
 package y2020
 
 import utils.Day
-import utils.Files
+import utils.readers.asLines
 
-class Day02: Day {
+class Day02 : Day<Int> {
 
-    private val input = Files.readFileAsLines(2020, 2)
+    private val input = file.asLines()
 
-    override fun runAll() {
-        println("Day 02 : check if letter occurrences in string matches range")
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(x: List<String>): Int =
         x.count { i ->
@@ -30,7 +26,6 @@ class Day02: Day {
             val password = i.substringAfter(": ")
             (password[min - 1] == letter[0] && password[max - 1] != letter[0]) || (password[min - 1] != letter[0] && password[max - 1] == letter[0])
         }
-
 
 
 }

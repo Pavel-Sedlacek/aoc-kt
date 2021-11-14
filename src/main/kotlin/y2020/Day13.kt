@@ -1,20 +1,16 @@
 package y2020
 
 import utils.Day
-import utils.Files
-import utils.Helpers.lcm
+import utils.readers.Reader
+import utils.lcm
+import utils.readers.asLines
 import kotlin.math.ceil
 
-class Day13: Day {
+class Day13: Day<Long> {
 
-    private val input = Files.readFileAsMutableList(2020, 13)
+    private val input = file.asLines()
 
-    override fun runAll() {
-        println("Day 13 : Busses intersections")
-
-        println(partOne(input))
-        println(partTwo(input[1].split(",")))
-    }
+    override fun runAll() = super.run({ partOne(input)}, { partTwo(input[1].split(","))})
 
     private fun partTwo(s: List<String>): Long {
         val rem = mutableListOf<Int>();

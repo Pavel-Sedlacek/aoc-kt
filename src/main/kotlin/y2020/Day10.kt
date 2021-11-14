@@ -1,26 +1,20 @@
 package y2020
 
 import utils.Day
-import utils.Files
+import utils.collections.modify
+import utils.readers.asLongs
 
-class Day10: Day {
+class Day10 : Day<Long> {
 
-    private val input = Files.readFileAsMutableLongs(2020, 10)
+    private val input = file.asLongs().modify { it.add(0, 0) }
 
-    override fun runAll() {
-        println("Day 10 : Jolts in three range limit")
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
-        input.add(0, 0)
+    private fun partOne(input: List<Long>): Long {
+        val x = input.sortedBy { it.toInt() }
 
-        println(this.partOne(input))
-        println(this.partTwo(input))
-    }
-
-    private fun partOne(x: MutableList<Long>) : Int {
-        x.sortBy { it.toInt() }
-
-        var three = 0
-        var one = 0
+        var three = 0L
+        var one = 0L
 
         for (i in 1 until x.size) {
             if (x[i] - (one + (3 * three)) == 3L)
@@ -31,7 +25,7 @@ class Day10: Day {
         return (three + 1) * one
     }
 
-    private fun partTwo(nums: MutableList<Long>): Long {
+    private fun partTwo(nums: List<Long>): Long {
         val f = LongArray(nums.size) { 0L }
         f[nums.size - 1] = 1
         for (i in nums.size - 2 downTo 0) {
@@ -45,5 +39,4 @@ class Day10: Day {
         }
         return f[0]
     }
-
 }

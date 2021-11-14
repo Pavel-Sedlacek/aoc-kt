@@ -1,17 +1,16 @@
 package y2015
 
 import utils.Day
-import utils.Files
+import utils.readers.Reader
+import utils.memorySize
+import utils.pureLength
+import utils.readers.asLines
 
-class Day08 : Day {
+class Day08 : Day<Int> {
 
-    private val input = Files.readFileAsLines(2015, 8)
+    private val input = file.asLines()
 
-    override fun runAll() {
-        println("Day 08: Character length x memory size")
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
 
     private fun partOne(input: List<String>): Int = input.fold(0) { acc: Int, line: String ->
         acc + ((line.length + 2) - line.memorySize())
@@ -20,19 +19,4 @@ class Day08 : Day {
     private fun partTwo(input: List<String>): Int = input.fold(0) { acc: Int, line: String ->
         acc + ((line.pureLength()) - (line.length + 2))
     }
-}
-
-fun String.pureLength(): Int {
-    return StringBuilder("\\\"").also {
-        for (i in this) it.append("${if (i == '\\' || i == '\"') '\\' else ""}$i")
-        it.append("\\\"")
-    }.length
-}
-
-fun String.memorySize(): Int {
-    var x = this
-    x = x.replace("\\\\", "*")
-    x = x.replace("\\\"", "*")
-    x = x.replace("\\\\x[0-9a-f]{2}".toRegex(), "*")
-    return x.length
 }

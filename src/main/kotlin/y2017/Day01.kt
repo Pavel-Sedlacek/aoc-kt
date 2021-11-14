@@ -1,17 +1,12 @@
 package y2017
 
 import utils.Day
-import utils.Files
 
-class Day01 : Day {
+class Day01 : Day<Int> {
 
-    private val input = Files.readFileAsString(2017, 1)
+    private val input = file
 
-    override fun runAll() {
-        println("Day 01 : Sum consecutive matching digits")
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(x: String) =
         x.foldIndexed(0) { i, acc, c ->

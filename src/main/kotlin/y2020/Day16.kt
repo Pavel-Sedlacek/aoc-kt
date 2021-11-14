@@ -1,27 +1,24 @@
 package y2020
 
 import utils.Day
-import utils.Files
+import utils.readers.Reader
+import utils.readers.asLinesSplitBy
 
 
+// TODO
+class Day16: Day<Int> {
 
-class Day16: Day {
-
-    private val input = Files.readFileAsLinesSplitBy(2020, 16, "\r\n\r\n")
+    private val input = file.asLinesSplitBy("\r\n\r\n")
     private var validTicks = mutableListOf<String>()
 
-    override fun runAll() {
-        println("Day 16 : Tickets")
-        println(partOne(input.toMutableList()))
-        println(partTwo(input.toMutableList()))
+    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
+
+    private fun partTwo(toMutableList: List<String>): Int {
+        return 0
     }
 
-    private fun partTwo(toMutableList: MutableList<String>): Any? {
-        return null
-    }
-
-    private fun partOne(toMutableList: MutableList<String>): Any? {
-        return null
+    private fun partOne(toMutableList: List<String>): Int {
+        return 0
     }
 
 

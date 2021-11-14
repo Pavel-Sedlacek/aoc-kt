@@ -1,19 +1,14 @@
 package y2020
 
 import utils.Day
-import utils.Files
+import utils.readers.asLines
 import kotlin.math.absoluteValue
 
-class Day12: Day {
+class Day12 : Day<Int> {
 
-    private val input = Files.readFileAsMutableList(2020, 12)
+    private val input = file.asLines()
 
-    override fun runAll() {
-        println("Day 12 : Boat emergency guidance, waypoint")
-
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partTwo(input: List<String>): Int {
         var x = 0
@@ -74,5 +69,4 @@ class Day12: Day {
         }
         return x.absoluteValue + y.absoluteValue
     }
-
 }

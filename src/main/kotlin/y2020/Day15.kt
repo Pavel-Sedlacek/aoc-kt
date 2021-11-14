@@ -1,19 +1,16 @@
 package y2020
 
 import utils.Day
-import utils.Files
+import utils.readers.Reader
+import utils.readers.asIntsDividedBy
 
-class Day15: Day {
+class Day15: Day<Int> {
 
-    private val input = Files.readFileAsIntsDividedBy(2020, 15, ",".toRegex())
+    private val input = file.asIntsDividedBy(",".toRegex())
 
-    override fun runAll() {
-        println("Day 15 : WTF Elvish game")
-        println(partOne(input.toMutableList()))
-        println(partTwo(input.toMutableList()))
-    }
+    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
 
-    private fun partOne(input: MutableList<Int>): Int {
+    private fun partOne(input: List<Int>): Int {
         var x = input
         while (x.size < 2020) {
             val curr = x.last()
@@ -29,7 +26,7 @@ class Day15: Day {
         return x.last()
     }
 
-    private fun partTwo(input: MutableList<Int>): Int {
+    private fun partTwo(input: List<Int>): Int {
         val nums = input.toMutableList()
         val last = mutableMapOf<Int, Int>()
         var curr = -1

@@ -1,25 +1,23 @@
 package y2020
 
 import utils.Day
-import utils.Files
 import utils.Helpers.refineEvalOne
 import utils.Helpers.refineEvalTwo
-import java.util.*
+import utils.readers.asLines
 
-class Day18: Day {
+class Day18 : Day<Long> {
 
-    private val input = Files.readFileAsMutableList(2020, 18)
+    private val input = file.asLines()
 
     override fun runAll() {
         var sum1 = 0L
         var sum2 = 0L
-        for (i in input.indices) {
-            sum1 += partOne(input[i])
-            sum2 += partTwo(input[i])
+        repeat(input.size) {
+            sum1 += partOne(input[it])
+            sum2 += partTwo(input[it])
         }
-        println("Day EIGHTEEN : Math Eval")
-        println(sum1)
-        println(sum2)
+
+        super.run({ sum1 }, { sum2 })
     }
 
     private fun partOne(s: String): Long {
@@ -51,7 +49,7 @@ class Day18: Day {
     private fun partTwo(input: String): Long {
         var depth = 0
         var start = -1
-        var end: Int
+        val end: Int
         for (i in input.indices) {
             if (input[i] == '(') {
                 if (depth == 0) {

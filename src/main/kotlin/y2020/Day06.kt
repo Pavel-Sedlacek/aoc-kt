@@ -1,17 +1,12 @@
 package y2020
 
 import utils.Day
-import utils.Files
+import utils.readers.asLinesSplitBy
 
-class Day06: Day {
-    private val input = Files.readFileAsString(2020, 6).split("\\n\\n")
+class Day06 : Day<Int> {
+    private val input = file.asLinesSplitBy("\\n\\n".toRegex())
 
-    override fun runAll() {
-        println("Day 06 : yes answer count")
-
-        println(this.partOne(input))
-        println(this.partTwo(input))
-    }
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(input: List<String>): Int {
         var sum = 0

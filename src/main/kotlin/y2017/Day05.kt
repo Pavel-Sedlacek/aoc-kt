@@ -1,20 +1,18 @@
 package y2017
 
 import utils.Day
-import utils.Files
+import utils.readers.Reader
 import utils.Helpers.jump
+import utils.collections.mut
+import utils.readers.asInts
 
-class Day05 : Day {
+class Day05 : Day<Int> {
 
-    private val input = Files.readFileAsInts(2017, 5)
+    private val input = file.asInts()
 
-    override fun runAll() {
-        println("Day 05 : Jump maze")
-        println(partOne(input.toMutableList()))
-        println(partTwo(input.toMutableList()))
-    }
+    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
 
-    private fun partOne(input: MutableList<Int>) = jump(input, { 1 })
+    private fun partOne(input: List<Int>) = jump(input.mut(), { 1 })
 
-    private fun partTwo(input: MutableList<Int>) = jump(input, { if (it >= 3) -1 else 1 })
+    private fun partTwo(input: List<Int>) = jump(input.mut(), { if (it >= 3) -1 else 1 })
 }

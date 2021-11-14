@@ -1,19 +1,15 @@
 package y2015
 
 import utils.Day
-import utils.Files
-import utils.Helpers.md5
-import utils.Helpers.toHex
+import utils.readers.Reader
+import utils.common.md5
+import utils.toHex
 
-class Day04 : Day {
+class Day04 : Day<Int> {
 
-    private val input = Files.readFileAsString(2015, 4)
+    private val input = file
 
-    override fun runAll() {
-        println("Day 04: crypto hashing")
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
 
     private fun partOne(input: String): Int {
         var x = 0

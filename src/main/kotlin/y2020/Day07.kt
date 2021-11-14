@@ -2,18 +2,15 @@ package y2020
 
 import utils.Day
 import utils.Helpers.Bags
-import utils.Files
+import utils.readers.asLines
 
-class Day07: Day {
-    private val input = Files.readFileAsLines(2020, 7)
+class Day07 : Day<Int> {
+    private val input = file.asLines()
 
     override fun runAll() {
-        println("Day 07 : bag incest")
-
         val bags = Bags(input)
 
-        println(this.partOne(bags))
-        println(this.partTwo(bags))
+        super.run({ partOne(bags) }, { partTwo(bags) })
     }
 
     private fun partOne(bags: Bags): Int {

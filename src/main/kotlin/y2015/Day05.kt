@@ -1,17 +1,14 @@
 package y2015
 
 import utils.Day
-import utils.Files
+import utils.readers.Reader
+import utils.readers.asLines
 
-class Day05 : Day {
+class Day05 : Day<Int> {
 
-    private val input = Files.readFileAsLines(2015, 5)
+    private val input = file.asLines()
 
-    override fun runAll() {
-        println("Day 05: ")
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({partOne(input)}, {partTwo(input)})
 
     private fun partOne(input: List<String>) = input.fold(0) { acc, s ->
         if (s.matches("^.*[aeiou].*[aeiou].*[aeiou].*\$".toRegex()) &&

@@ -1,21 +1,17 @@
 package y2020
 
 import utils.Day
-import utils.Files
 import utils.Helpers.floatingValues
+import utils.readers.asLines
 
 
-class Day14 : Day {
+class Day14 : Day<Long> {
 
-    private val input = Files.readFileAsMutableList(2020, 14)
+    private val input = file.asLines()
 
-    override fun runAll() {
-        println("Day FOURTEEN : memory masking")
-        println(partOneFourteen(input))
-        println(partTwoFourteen(input))
-    }
+    override fun runAll() = super.run({ partOneFourteen(input) }, { partTwoFourteen(input) })
 
-    private fun partTwoFourteen(f: MutableList<String>): Long {
+    private fun partTwoFourteen(f: List<String>): Long {
         val mem = mutableMapOf<Long, Long>()
         var mask = ""
         f.forEach {
@@ -34,7 +30,7 @@ class Day14 : Day {
         return mem.map { it.value }.sum()
     }
 
-    private fun partOneFourteen(f: MutableList<String>): Long {
+    private fun partOneFourteen(f: List<String>): Long {
         val mem = LongArray(100000)
         var mask = 0L
         var muskox = 0L

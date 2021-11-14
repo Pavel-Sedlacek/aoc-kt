@@ -1,18 +1,14 @@
 package y2015
 
 import utils.Day
-import utils.Files
-import utils.Helpers.allPermutations
-import java.lang.Error
+import utils.collections.allPermutations
+import utils.readers.asLines
 
-fun main() {
-    Day09().runAll()
-}
-
-class Day09 : Day {
+class Day09 : Day<Int> {
 
     private val input =
-        Files.readFileAsLines(2015, 9).associate { line -> line.split(" ").let { (it[0] to it[2]) to it[4].toInt() } }
+        file.asLines().associate { line -> line.split(" ").let { (it[0] to it[2]) to it[4].toInt() } }
+
     private val permutations = input.keys.flatMap { listOf(it.first, it.second) }.toSet().allPermutations().map {
         it.foldIndexed(0) { index: Int, acc: Int, s: String ->
             if (index + 1 < it.size)
@@ -22,10 +18,6 @@ class Day09 : Day {
         }
     }
 
-    override fun runAll() {
-        println("Day 09: Shortest and Longest graph route")
-        println(permutations.minOrNull())
-        println(permutations.maxOrNull())
-    }
+    override fun runAll() = super.run({ permutations.minOrNull() }, { permutations.maxOrNull() })
 }
 

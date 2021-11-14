@@ -2,16 +2,12 @@ package y2020
 
 import utils.Day
 import utils.Helpers.recursiveGo
-import utils.Files
+import utils.readers.asLines
 
-class Day08: Day {
-    private val input = Files.readFileAsLines(2020, 8)
+class Day08 : Day<Int> {
+    private val input = file.asLines()
 
-    override fun runAll() {
-        println("Day 08 : text-code machine")
-        println(this.partOne(input))
-        println(this.partTwo(input))
-    }
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(x: List<String>): Int {
         val visitedLines = (0..x.size).toMutableSet()
@@ -35,7 +31,7 @@ class Day08: Day {
         return 0
     }
 
-    private fun partTwo(x: List<String>) : Int {
+    private fun partTwo(x: List<String>): Int {
         x.forEachIndexed { index, i ->
             if (i.contains("jmp") or i.contains("nop")) {
                 val y = x.toMutableList()

@@ -1,17 +1,15 @@
 package y2020
 
 import utils.Day
-import utils.Files
+import utils.readers.asLongs
 
-class Day09: Day {
-    private val input = Files.readFileAsMutableLongs(2020, 9)
+class Day09 : Day<Long> {
+    private val input = file.asLongs()
 
     override fun runAll() {
-        println("Day 09 : each number is sum of 2 of the previous 25 numbers")
-
         val p1 = partOne(input)
-        println(p1)
-        println(this.partTwo(input, p1))
+
+        super.run({ p1 }, { partTwo(input, p1) })
     }
 
     private fun partOne(x: List<Long>): Long? {

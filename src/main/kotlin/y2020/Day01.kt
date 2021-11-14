@@ -1,16 +1,13 @@
 package y2020
 
-import utils.*
+import utils.Day
+import utils.readers.asInts
 
-class Day01: Day {
+class Day01 : Day<Int> {
 
-    private val input = Files.readFileAsInts(2020, 1)
+    private val input = file.asInts()
 
-    override fun runAll() {
-        println("Day 01 : find product of two/three numbers that sums to 2020")
-        println(this.partOne(input))
-        println(this.partTwo(input))
-    }
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(x: List<Int>): Int {
         for (n1 in x) {

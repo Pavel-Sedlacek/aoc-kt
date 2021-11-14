@@ -1,19 +1,27 @@
 package y2015
 
 import utils.Day
-import utils.Files
 
-class Day01: Day{
+class Day01 : Day<Int> {
 
-    private val input = Files.readFileAsString(2015, 1)
+    private val input = file
 
-    override fun runAll() {
-        println("Day 01 : () floors")
-        println(partOne(input))
-        println(partTwo(input))
+    override fun runAll() = super.run({ partOne(file) }, { partTwo(file) })
+
+    private fun partOne(input: String): Int {
+        return input.fold(0) { acc, c ->
+            if (c == '(') acc + 1 else acc - 1
+        }
     }
 
-    private fun partOne(input: String) = input.fold(0) { acc, c -> if (c == '(') acc + 1 else acc - 1 }
-    private fun partTwo(input: String) = input.foldIndexed(0) { acc, i, c -> if (acc < 0) {println(i + 1)}; return@foldIndexed if (c == '(') acc + 1 else acc - 1 }
+    private fun partTwo(input: String): Int {
+        var x = 0
+        for (i in input.indices) {
+            if (input[i] == '(') x += 1
+            else x - 1
+            if (x < 0) return i
+        }
+        return x
+    }
 
 }

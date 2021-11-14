@@ -1,32 +1,36 @@
 package y2015
 
 import utils.Day
-import utils.Files
+import utils.collections.product
+import utils.readers.asLines
 
-class Day02 : Day {
+class Day02 : Day<Int> {
 
-    private val input = Files.readFileAsLines(2015, 2)
+    private val input = file.asLines().map { it.split("x").map { it.toInt() } }
 
-    override fun runAll() {
-        println("Day 02 : wrapping paper")
-        println(partOne(input))
-        println(partTwo(input))
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+
+    private fun partOne(input: List<List<Int>>): Int {
+        var area = 0
+        for (i in input) {
+            area += listOf(
+                i[0] * i[1],
+                i[0] * i[2],
+                i[1] * i[2]
+            ).let {
+                it.sum() * 2 + (it.minOrNull() ?: 0)
+            }
+        }
+        return area
     }
 
-    private fun partOne(input: List<String>) =
-        input.fold(0) { acc, it ->
-            val x = it.split("x").map { it.toInt() }
-            val z = listOf(
-                x[0] * x[1],
-                x[1] * x[2],
-                x[0] * x[2]
-            )
-            z.sum() * 2 + (z.minOrNull() ?: 0)
+    private fun partTwo(input: List<List<Int>>): Int {
+        var area = 0
+        for (i in input) {
+            area += i.sorted().let {
+                it[0] * 2 + it[1] * 2 + it.product()
+            }
         }
-
-    private fun partTwo(input: List<String>) =
-        input.fold(0) { acc, it ->
-            val x = it.split("x").map { it.toInt() }.sorted()
-            x[0] * 2 + x[1] * 2 + x.reduce { acc1, i -> acc1 * i }
-        }
+        return area
+    }
 }

@@ -1,17 +1,12 @@
 package y2015
 
 import utils.Day
-import utils.Files
 
-class Day03 : Day {
+class Day03 : Day<Int> {
 
-    private val input = Files.readFileAsString(2015, 3)
+    private val input = file
 
-    override fun runAll() {
-        println("Day 03: ")
-        println(partOne(input))
-        println(partTwo(input))
-    }
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(input: String): Int {
         var x = 0
