@@ -1,7 +1,7 @@
 package y2015
 
 import utils.Day
-import utils.Patterns.number
+import utils.common.Patterns.number
 import utils.common.literalString
 
 class Day10 : Day<String> {

@@ -1,8 +1,8 @@
 package y2020
 
 import utils.Day
-import utils.Patterns.passportExpectedFields
-import utils.Patterns.passportFieldPatterns
+import utils.common.Patterns.passportExpectedFields
+import utils.common.Patterns.passportFieldPatterns
 import utils.readers.asLines
 
 class Day04 : Day<Int> {

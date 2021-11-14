@@ -3,9 +3,7 @@ package y2020
 import java.io.File
 
 var values = File("src/main/resources/Day19.txt").readText().split("\n\n")
-var rules1 = values[0].split("\n")
-    .map {it.split(":").let { (id,rule) -> id.toInt() to rule.trim()}}
-    .toMap()
+var rules1 = values[0].split("\n").associate { it.split(":").let { (id, rule) -> id.toInt() to rule.trim() } }
 var rules2 = rules1 + listOf(8 to "42 | 42 8", 11 to "42 31 | 42 11 31").toMap()
 var text = values[1].split("\n")
 

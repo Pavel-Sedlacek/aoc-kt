@@ -1,9 +1,8 @@
 package y2015
 
 import utils.Day
-import utils.readers.Reader
 import utils.common.md5
-import utils.toHex
+import utils.common.toHex
 
 class Day04 : Day<Int> {
 

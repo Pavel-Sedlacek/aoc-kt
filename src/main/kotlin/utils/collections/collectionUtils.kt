@@ -1,23 +1,23 @@
 package utils.collections
 
-import utils.toBinary
+import utils.common.toBinary
 
 fun <T> Set<T>.allPermutations(): Set<List<T>> {
     if (this.isEmpty()) return emptySet()
 
-    fun <T> List<T>._allPermutations(): Set<List<T>> {
+    fun <T> List<T>.innerAllPermutations(): Set<List<T>> {
         if (this.isEmpty()) return setOf(emptyList())
 
         val result: MutableSet<List<T>> = mutableSetOf()
         for (i in this.indices) {
-            (this - this[i])._allPermutations().forEach { item ->
+            (this - this[i]).innerAllPermutations().forEach { item ->
                 result.add(item + this[i])
             }
         }
         return result
     }
 
-    return this.toList()._allPermutations()
+    return this.toList().innerAllPermutations()
 }
 
 fun List<String>.toBinaryList(): List<String> {
@@ -36,7 +36,7 @@ fun <Z> List<Z>.mut(): MutableList<Z> {
 
 
 /*
-    mutate unmutable list without explicit converting
+    mutate immutable list without explicit converting
  */
 fun <Z> List<Z>.modify(modify: (it: MutableList<Z>) -> Unit): List<Z> {
     val x = this.mut()

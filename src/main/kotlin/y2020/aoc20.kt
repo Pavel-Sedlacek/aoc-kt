@@ -61,8 +61,8 @@ private fun arrangeTilesOne(tiles: List<Tile>): Array<Array<Tile>> {
                     val rotations = ((iCurrent + 4) - iOther.opposite()) % 4
                     if (currentTile.getConnection(iCurrent) == null) {
                         allTiles[tile.id]!!.rotateRight(rotations)
-                        if (iCurrent == 0 || iCurrent == 2) allTiles[tile.id]!!.flipHori()
-                        else allTiles[tile.id]!!.flipVert()
+                        if (iCurrent == 0 || iCurrent == 2) allTiles[tile.id]!!.flipHorizontal()
+                        else allTiles[tile.id]!!.flipVertical()
                         currentTile.setConnection(iCurrent, tile.id)
                         tile.setConnection(iCurrent.opposite(), currentTile.id)
                         tileStack.push(tile)
@@ -84,7 +84,7 @@ private fun arrangeTilesOne(tiles: List<Tile>): Array<Array<Tile>> {
     }
 
     val image = Array(sqrt(tiles.size.toDouble()).roundToInt()) {
-        Array<Tile>(sqrt(tiles.size.toDouble()).roundToInt()) {
+        Array(sqrt(tiles.size.toDouble()).roundToInt()) {
             Tile(
                 -1L,
                 listOf()
@@ -126,8 +126,8 @@ private fun arrangeTilesTwo(tiles: List<Tile>): Tile {
                     val rotations = ((iCurrent + 4) - iOther.opposite()) % 4
                     if (currentTile.getConnection(iCurrent) == null) {
                         allTiles[tile.id]!!.rotateRight(rotations)
-                        if (iCurrent == 0 || iCurrent == 2) allTiles[tile.id]!!.flipHori()
-                        else allTiles[tile.id]!!.flipVert()
+                        if (iCurrent == 0 || iCurrent == 2) allTiles[tile.id]!!.flipHorizontal()
+                        else allTiles[tile.id]!!.flipVertical()
                         currentTile.setConnection(iCurrent, tile.id)
                         tile.setConnection(iCurrent.opposite(), currentTile.id)
                         tileStack.push(tile)
@@ -190,10 +190,10 @@ private fun Int.opposite(): Int {
 
 private fun calcWaterRoughness(image: Tile): Int {
     val monsters = findAllSeaMonsters(image)
-    if (monsters != 0) {
-        return image.grid.sumOf { r -> r.count { it } } - monsters * 15
+    return if (monsters != 0) {
+        image.grid.sumOf { r -> r.count { it } } - monsters * 15
     } else {
-        return -1
+        -1
     }
 }
 
@@ -201,16 +201,16 @@ private fun findAllSeaMonsters(image: Tile): Int {
     repeat(4) {
         countSeaMonsters(image).let { if (it != 0) return it }
 
-        image.flipVert()
+        image.flipVertical()
         countSeaMonsters(image).let { if (it != 0) return it }
 
-        image.flipHori()
+        image.flipHorizontal()
         countSeaMonsters(image).let { if (it != 0) return it }
 
-        image.flipVert()
+        image.flipVertical()
         countSeaMonsters(image).let { if (it != 0) return it }
 
-        image.flipHori()
+        image.flipHorizontal()
 
         image.rotateRight()
     }
@@ -278,11 +278,11 @@ class Tile(val id: Long, var grid: List<List<Boolean>>) {
         }
     }
 
-    fun flipHori() {
+    fun flipHorizontal() {
         grid = grid.map { it.reversed() }
     }
 
-    fun flipVert() {
+    fun flipVertical() {
         grid = grid.reversed()
     }
 

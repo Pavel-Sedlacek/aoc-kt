@@ -1,8 +1,12 @@
 package utils
 
+import utils.collections.Coordinates
+import utils.common.not
+import utils.common.toDecimal
 import java.security.MessageDigest
 import kotlin.math.ceil
 import kotlin.math.sqrt
+import kotlin.reflect.KFunction1
 
 object Helpers {
     fun countDiagonalTrees(x: Int, y: Int, model: MutableList<String>): Long {
@@ -24,26 +28,6 @@ object Helpers {
         }
         return curSum
     }
-
-    fun listToBinaryList(stringList: MutableList<String>): MutableList<String> {
-        val binList = stringList.toMutableList()
-        for (i in 0 until binList.size) {
-            binList[i] = binList[i].replace("F", "0").replace("B", "1").replace("L", "0").replace("R", "1")
-        }
-        return binList
-    }
-
-    val passportExpectedFields = listOf("byr:", "iyr:", "eyr:", "hgt:", "hcl:", "ecl:", "pid:")
-
-    val passportFieldPatterns = listOf(
-        """\bbyr:(19[2-9][0-9]|200[0-2])\b""",
-        """\biyr:(201[0-9]|2020)\b""",
-        """\beyr:(202[0-9]|2030)\b""",
-        """\bhgt:((1([5-8][0-9]|9[0-3])cm)|((59|6[0-9]|7[0-6])in))\b""",
-        """\bhcl:#[0-9a-f]{6}\b""",
-        """\becl:(amb|blu|brn|gry|grn|hzl|oth)\b""",
-        """\bpid:[0-9]{9}\b"""
-    ).map { it.toRegex() }
 
     class Bags(lines: List<String>) {
 
@@ -83,9 +67,6 @@ object Helpers {
         }
         return accumulator
     }
-
-    private fun gcd(a: Long, b: Long): Long = if (b == 0L) a else gcd(b, a % b)
-    fun lcm(a: Long, b: Long): Long = a / gcd(a, b) * b
 
     fun floatingValues(mask: String, address: String): MutableList<String> {
         val addresses = mutableListOf<String>()
@@ -154,8 +135,6 @@ object Helpers {
         }
         return (parts[0]).toLong()
     }
-
-    data class Quad<X, Y, Z, W>(val x: X, val y: Y, val z: Z, val w: W)
 
     private fun Int.isOdd(): Boolean = this % 2 != 0
 
@@ -259,10 +238,7 @@ object Helpers {
         }
     }
 
-    fun String.md5(): ByteArray = MessageDigest.getInstance("MD5").digest(this.toByteArray())
-    fun ByteArray.toHex() = joinToString(separator = "") { byte -> "%02x".format(byte) }
-
-    fun initLights(): MutableList<Light> {
+    private fun initLights(): MutableList<Light> {
         val z = mutableListOf<Light>()
         for (x in 0 until 1000) {
             for (y in 0 until 1000) {
@@ -299,41 +275,6 @@ object Helpers {
             state += 2
         }
     }
-    fun solver(
-        input: List<List<String>>,
-        off: KFunction1<Light, Unit>,
-        on: KFunction1<Light, Unit>,
-        toggle: KFunction1<Light, Unit>
-    ): Int = initLights().also { lights ->
-        input.onEach { line ->
-            val from = Coordinates(0, 0)
-            val to = Coordinates(0, 0)
-            val fn: KFunction1<Light, Unit> = when {
-                line[0] == "toggle" -> toggle
-                else -> if (line[1] == "on") on else off
-
-    data class Coordinates(var x: Int, var y: Int)
-
-    fun String.toDecimal(): Int {
-        var sum = 0
-        this.reversed().forEachIndexed { k, v ->
-            sum += v.toString().toInt() * pow(2, k)
-        }
-        return sum
-    }
-
-    fun Int.toBinary(binaryString: String = ""): String {
-        while (this > 0) {
-            val temp = "${binaryString}${this % 2}"
-            return (this / 2).toBinary(temp)
-        }
-        return binaryString.reversed()
-    }
-
-    fun pow(base: Int, exponent: Int) = Math.pow(base.toDouble(), exponent.toDouble()).toInt()
-
-    fun Int.not(): Int =
-        this.toBinary().padStart(16, '0').let { it.map { if (it == '0') 1 else 0 }.joinToString("").toDecimal() }
 
     data class Gate(val expression: String) {
 
@@ -392,18 +333,18 @@ object Helpers {
         }
     }
 
-
-    fun <T> Set<T>.allPermutations(): Set<List<T>> {
-        if (this.isEmpty()) return emptySet()
-
-        fun <T> List<T>._allPermutations(): Set<List<T>> {
-            if (this.isEmpty()) return setOf(emptyList())
-
-            val result: MutableSet<List<T>> = mutableSetOf()
-            for (i in this.indices) {
-                (this - this[i])._allPermutations().forEach { item ->
-                    result.add(item + this[i])
-                }
+    fun solver(
+        input: List<List<String>>,
+        off: KFunction1<Light, Unit>,
+        on: KFunction1<Light, Unit>,
+        toggle: KFunction1<Light, Unit>
+    ): Int = initLights().also { lights ->
+        input.onEach { line ->
+            val from = Coordinates(0, 0)
+            val to = Coordinates(0, 0)
+            val fn: KFunction1<Light, Unit> = when {
+                line[0] == "toggle" -> toggle
+                else -> if (line[1] == "on") on else off
             }
 
             (if (fn == toggle) 1 else 2).also {
@@ -413,16 +354,91 @@ object Helpers {
             lights.forEach { if (it.isInRange(from.x, to.x, from.y, to.y)) fn.invoke(it) }
         }
     }.let { lights -> lights.sumBy { it.state } }
-        return this.toList()._allPermutations()
+
+    enum class State {
+        RESTING,
+        SPEEDING
     }
 
-    fun Any.log() {
-        println(this)
+    data class Stats(
+        val speed: Int,
+        val speedDuration: Int,
+        val restDuration: Int,
+        var distanceTraveled: Int = 0,
+        var restRemaining: Int = 0,
+        var speedRemaining: Int = speedDuration,
+        var state: State = State.SPEEDING,
+        var score: Int = 0
+    ) {
+        fun move() {
+            if (state == State.SPEEDING) {
+                go()
+            } else {
+                stop()
+            }
+        }
+
+        private fun go() {
+            if (speedRemaining <= 0) {
+                restRemaining = restDuration
+                state = State.RESTING
+                stop()
+                return
+            }
+            distanceTraveled += speed
+            speedRemaining--
+        }
+
+        private fun stop() {
+            if (restRemaining <= 0) {
+                speedRemaining = speedDuration
+                state = State.SPEEDING
+                go()
+                return
+            }
+            restRemaining--
+        }
     }
 
-    fun String.increment(): String = (this.last() + 1).let {
-        if (it > 'z') this.substring(0 until this.length - 1).increment() + 'a'
-        else this.substring(0 until this.length - 1) + it
+    data class Matches(
+        val children: Int,
+        val cats: Int,
+        val samoyeds: Int,
+        val pomeranians: Int,
+        val akitas: Int,
+        val vizslas: Int,
+        val goldfish: Int,
+        val trees: Int,
+        val cars: Int,
+        val perfumes: Int
+    ) {
+        fun match(other: Matches): MatchResult {
+
+            return MatchResult.NO_MATCH
+        }
+
+        companion object {
+            fun from(let: Map<String, Int>): Matches {
+                return Matches(
+                    children = let["children"] ?: -1,
+                    cats = let["cats"] ?: -1,
+                    samoyeds = let["samoyeds"] ?: -1,
+                    pomeranians = let["pomeranians"] ?: -1,
+                    akitas = let["akitas"] ?: -1,
+                    vizslas = let["vizslas"] ?: -1,
+                    goldfish = let["goldfish"] ?: -1,
+                    trees = let["trees"] ?: -1,
+                    cars = let["cars"] ?: -1,
+                    perfumes = let["perfumes"] ?: -1
+                )
+            }
+        }
+    }
+
+    enum class MatchResult {
+        NO_MATCH,
+        CAN_MATCH,
+        PERFECT_MATCH
     }
 }
 

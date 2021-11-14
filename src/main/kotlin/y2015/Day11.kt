@@ -1,19 +1,16 @@
 package y2015
 
 import utils.Day
-import utils.Files
-import utils.Helpers.increment
+import utils.common.increment
 
-class Day11 : Day {
+class Day11 : Day<String> {
 
-    private val input = Files.readFileAsString(2015, 11)
+    private val input = file
 
     override fun runAll() {
-        println("Day 11: Password find")
-        input.nextPassword().also {
-            println(it)
-            println(it.nextPassword())
-        }
+        val p1 = input.nextPassword()
+        val p2 = p1.nextPassword()
+        super.run({ p1 }, { p2 })
     }
 
     private fun String.nextPassword(): String {

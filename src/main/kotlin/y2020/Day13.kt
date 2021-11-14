@@ -1,8 +1,7 @@
 package y2020
 
 import utils.Day
-import utils.readers.Reader
-import utils.lcm
+import utils.common.lcm
 import utils.readers.asLines
 import kotlin.math.ceil
 
@@ -13,7 +12,7 @@ class Day13: Day<Long> {
     override fun runAll() = super.run({ partOne(input)}, { partTwo(input[1].split(","))})
 
     private fun partTwo(s: List<String>): Long {
-        val rem = mutableListOf<Int>();
+        val rem = mutableListOf<Int>()
         val bus = mutableListOf<Int>()
         for (i in s.indices) {
             if (s[i] != "x") {
@@ -22,7 +21,7 @@ class Day13: Day<Long> {
             }
         }
         var step = bus[0].toLong()
-        var nextBus = 1;
+        var nextBus = 1
         var timeStamp = 0L
         do {
             timeStamp += step

@@ -29,8 +29,8 @@ class Day07 : Day<Int> {
         while (deque.isNotEmpty()) {
             val (count, item) = deque.removeFirst()
             sum += count
-            bags.bags[item]?.forEach { (subcount, subitem) ->
-                deque.add(count * subcount to subitem)
+            bags.bags[item]?.forEach { (subCount, subItem) ->
+                deque.add(count * subCount to subItem)
             }
         }
         return sum

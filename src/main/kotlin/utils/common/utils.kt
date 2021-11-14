@@ -1,4 +1,7 @@
-package utils
+package utils.common
+
+import kotlin.math.pow
+
 
 fun Any.log() {
     println(this)
@@ -20,6 +23,29 @@ fun String.pureLength(): Int {
         it.append("\\\"")
     }.length
 }
+
+fun String.toDecimal(): Int {
+    var sum = 0
+    this.reversed().forEachIndexed { k, v ->
+        sum += v.toString().toInt() * pow(2, k)
+    }
+    return sum
+}
+
+fun Int.toBinary(binaryString: String = ""): String {
+    while (this > 0) {
+        val temp = "${binaryString}${this % 2}"
+        return (this / 2).toBinary(temp)
+    }
+    return binaryString.reversed()
+}
+
+fun pow(base: Int, exponent: Int) = base.toDouble().pow(exponent.toDouble()).toInt()
+
+fun Int.not(): Int =
+    this.toBinary().padStart(16, '0').let { it.map { if (it == '0') 1 else 0 }.joinToString("").toDecimal() }
+
+
 fun String.memorySize(): Int {
     var x = this
     x = x.replace("\\\\", "*")
@@ -30,4 +56,9 @@ fun String.memorySize(): Int {
 
 operator fun String.times(other: Int): String {
     return this.repeat(other)
+}
+
+fun String.increment(): String = (this.last() + 1).let {
+    if (it > 'z') this.substring(0 until this.length - 1).increment() + 'a'
+    else this.substring(0 until this.length - 1) + it
 }

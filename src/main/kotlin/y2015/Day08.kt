@@ -1,9 +1,8 @@
 package y2015
 
 import utils.Day
-import utils.readers.Reader
-import utils.memorySize
-import utils.pureLength
+import utils.common.memorySize
+import utils.common.pureLength
 import utils.readers.asLines
 
 class Day08 : Day<Int> {

@@ -1,12 +1,12 @@
 package y2015
 
 import utils.Day
-import utils.Files
 import utils.Helpers.Gate
+import utils.readers.asLines
 
-class Day07 : Day {
+class Day07 : Day<Int> {
 
-    private val input = Files.readFileAsLines(2015, 7)
+    private val input = file.asLines()
 
     override fun runAll() {
         println("Day 07: Gate inputs")
@@ -36,10 +36,3 @@ class Day07 : Day {
         return partOne(inputSubstB)
     }
 }
-
-
-fun main() {
-    Day07().runAll()
-}
-
-
