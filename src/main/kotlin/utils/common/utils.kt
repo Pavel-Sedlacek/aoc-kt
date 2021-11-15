@@ -62,3 +62,21 @@ fun String.increment(): String = (this.last() + 1).let {
     if (it > 'z') this.substring(0 until this.length - 1).increment() + 'a'
     else this.substring(0 until this.length - 1) + it
 }
+
+fun Int.opposite(): Int {
+    return when (this) {
+        0 -> 2
+        1 -> 3
+        2 -> 0
+        3 -> 1
+        else -> 0
+    }
+}
+
+fun Int.divisors(): List<Int> {
+    val v = mutableListOf<Int>()
+    for (i in 1..this) {
+        if (this % i == 0) v.add(i)
+    }
+    return v
+}

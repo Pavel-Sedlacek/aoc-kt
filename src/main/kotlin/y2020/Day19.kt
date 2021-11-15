@@ -19,8 +19,3 @@ class Day19 : Day<Int> {
         return input[1].asLines().count { isMatch(rule, it) }
     }
 }
-
-fun main() {
-    Day19().runAll()
-}
-
