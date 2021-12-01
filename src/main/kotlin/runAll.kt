@@ -1,10 +1,10 @@
-import y2017.Exec2017
-import y2020.Exec2020
+import y2021.Exec2021
 
 fun main() {
     listOf(
 //        Exec2015,
-        Exec2017,
-        Exec2020
+//        Exec2017,
+//        Exec2020,
+        Exec2021
     ).onEach { it.execute(); repeat(3) { println() } }
 }

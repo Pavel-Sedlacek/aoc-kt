@@ -80,3 +80,9 @@ fun Int.divisors(): List<Int> {
     }
     return v
 }
+
+fun Int.limitBy(min: Int = 0, max: Int = 0): Int {
+    return if (this < min) min
+    else if (this > max) max
+    else this
+}

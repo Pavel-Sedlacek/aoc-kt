@@ -10,7 +10,7 @@ class Day21 : Day<String> {
         val (lhs, rhs) = line.split(" (contains ", limit = 2)
         lhs.split(' ') to rhs.removeSuffix(")").split(", ")
     }
-    val mapping = input
+    private val mapping = input
         .flatMap { (lhs, rhs) -> rhs.map { it to lhs } }
         .groupingBy { it.first }
         .aggregate { _, acc: MutableSet<String>?, (_, lhs), first ->

@@ -6,24 +6,27 @@ import utils.readers.Reader
 
 interface Day<R> {
 
+    private fun day() = this.javaClass.simpleName.takeLast(2).toInt()
+    private fun year() = this.javaClass.packageName.takeLast(4).toInt()
+
     private val printOffset
         get() = "   "
 
     val file: String
-        get() = Reader.readFile(
-            this.javaClass.simpleName.takeLast(2).toInt(),
-            this.javaClass.packageName.takeLast(4).toInt()
-        )
+        get() = Reader.readFile(day(), year())
 
     fun runAll()
 
     fun run(p1: () -> R?, p2: () -> R?) {
-        println("${printOffset}Day ${this.javaClass.simpleName.takeLast(2)}")
+        val c = Timer()
+        c.start()
+        println("$printOffset Day ${day()}")
+        val p1s = p1()
+        val p2s = p2()
+        println("$printOffset ${c.elapsed()} ms")
 
-        print("${printOffset * 2}part one: ")
-        println(p1())
-        print("${printOffset * 2}part two: ")
-        println(p2())
+        print("${printOffset * 2}part one: $p1s")
+        print("${printOffset * 2}part two: $p2s")
         println()
     }
 }
