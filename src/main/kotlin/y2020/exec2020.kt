@@ -1,5 +1,6 @@
 package y2020
 
+import utils.Day
 import utils.YearExecutor
 
 object Exec2020 : YearExecutor {
