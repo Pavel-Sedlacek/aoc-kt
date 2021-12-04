@@ -3,7 +3,7 @@ package y2021
 import utils.Day
 import utils.readers.asLines
 
-class Day02 : Day<Any> {
+class Day02 : Day<Int> {
 
     val input = file.asLines()
 

@@ -9,7 +9,7 @@ fun main() {
                     "\n"+
                     "import utils.Day\n" +
                     "\n"+
-                    "class Day${(it + 1).toString().padStart(2, '0')} : Day<Any> {\n" +
+                    "class Day${(it + 1).toString().padStart(2, '0')} : Day<Int> {\n" +
                     "\n" +
                     "    val input = file\n" +
                     "\n" +

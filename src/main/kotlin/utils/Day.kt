@@ -29,4 +29,6 @@ interface Day<R> {
         print("${printOffset * 2}part two: $p2s")
         println()
     }
+
+    fun run(p1: R?, p2: R?) = run({ p1 }, { p2 })
 }

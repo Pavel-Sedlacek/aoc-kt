@@ -2,7 +2,7 @@ package y2021
 
 import utils.Day
 
-class Day03 : Day<Any> {
+class Day03 : Day<Int> {
 
     val input = file
 
