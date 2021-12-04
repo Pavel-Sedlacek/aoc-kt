@@ -1,6 +1,8 @@
 package utils
 
 import utils.collections.Coordinates
+import utils.collections.clone
+import utils.collections.cloneMutable
 import utils.common.not
 import kotlin.math.ceil
 import kotlin.math.sqrt
@@ -580,3 +582,25 @@ object Helpers {
     }
 }
 
+class BingoBoard(private var board: List<MutableList<Int?>>) {
+
+    private val original = board.clone()
+
+    fun reset() {
+        board = original.cloneMutable()
+    }
+
+    fun isWinning(): Boolean {
+        next@ for (j in board[0].indices) {
+            for (row in board) {
+                if (row[j] != null) continue@next
+            }
+            return true
+        }
+        return board.any { it.all { it == null } }
+    }
+
+    fun flip(number: Int) = board.forEach { l -> l.indexOf(number).also { if (it != -1) l[it] = null } }
+
+    fun sum(): Int = board.sumBy { it.sumBy { it ?: 0 } }
+}

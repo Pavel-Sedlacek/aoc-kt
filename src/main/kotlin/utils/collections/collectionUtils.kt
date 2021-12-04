@@ -34,6 +34,8 @@ fun <Z> List<Z>.mut(): MutableList<Z> {
     return this.toMutableList()
 }
 
+fun <E> List<List<E>>.clone() = this.map { it.toList() }.toList()
+fun <E> List<List<E>>.cloneMutable() = this.map { it.toMutableList() }.toList()
 
 /*
     mutate immutable list without explicit converting
