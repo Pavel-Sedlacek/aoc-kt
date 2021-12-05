@@ -604,3 +604,21 @@ class BingoBoard(private var board: List<MutableList<Int?>>) {
 
     fun sum(): Int = board.sumBy { it.sumBy { it ?: 0 } }
 }
+
+data class Line(val from: Coordinates, val to: Coordinates) {
+    fun isDiagonal() = (from.x != to.x) and (from.y != to.y)
+}
+
+fun overlappingVentsSolver(input: List<Line>): Int {
+    val ventMap = HashMap<Coordinates, Int>()
+    input.forEach {
+        ventMap[it.from] = ventMap[it.from]?.plus(1) ?: 1
+        var lastCoordinate = it.from
+        while (lastCoordinate != it.to) {
+            val nextCoordinate = lastCoordinate.moveTowards(it.to)
+            ventMap[nextCoordinate] = ventMap[nextCoordinate]?.plus(1) ?: 1
+            lastCoordinate = nextCoordinate
+        }
+    }
+    return ventMap.values.count { it > 1 }
+}
