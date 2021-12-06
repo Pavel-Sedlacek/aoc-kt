@@ -24,18 +24,14 @@ fun String.pureLength(): Int {
     }.length
 }
 
-fun String.toDecimal(): Int {
-    var sum = 0
-    this.reversed().forEachIndexed { k, v ->
-        sum += v.toString().toInt() * pow(2, k)
-    }
-    return sum
-}
+fun String.toDecimal(): Int = this.toInt(2)
 
-fun Int.toBinary(binaryString: String = ""): String {
-    while (this > 0) {
-        val temp = "${binaryString}${this % 2}"
-        return (this / 2).toBinary(temp)
+fun Int.toBinary() = this.toString(2)
+
+fun Int.toBinary(binaryString: String): String {
+    this.toString(2)
+    if (this > 0) {
+        return (this / 2).toBinary("${binaryString}${this % 2}")
     }
     return binaryString.reversed()
 }
@@ -46,17 +42,10 @@ fun Int.not(): Int =
     this.toBinary().padStart(16, '0').let { it.map { if (it == '0') 1 else 0 }.joinToString("").toDecimal() }
 
 
-fun String.memorySize(): Int {
-    var x = this
-    x = x.replace("\\\\", "*")
-    x = x.replace("\\\"", "*")
-    x = x.replace("\\\\x[0-9a-f]{2}".toRegex(), "*")
-    return x.length
-}
+fun String.memorySize(): Int =
+    this.replace("\\\\", "*").replace("\\\"", "*").replace("\\\\x[0-9a-f]{2}".toRegex(), "*").length
 
-operator fun String.times(other: Int): String {
-    return this.repeat(other)
-}
+operator fun String.times(other: Int): String = this.repeat(other)
 
 fun String.increment(): String = (this.last() + 1).let {
     if (it > 'z') this.substring(0 until this.length - 1).increment() + 'a'
@@ -85,4 +74,27 @@ fun Int.limitBy(min: Int = 0, max: Int = 0): Int {
     return if (this < min) min
     else if (this > max) max
     else this
+}
+
+fun String.binaryInverse(): String {
+    return this.replace("0", "t").replace("1", "0").replace("t", "1")
+}
+
+
+fun List<String>.filterByCommonDigit(position: Int, invert: Boolean): List<String> {
+    if (size == 1) return this
+    val commonDigit = this.mostCommonCharacter(position)
+    return filter { (it[position] == commonDigit) xor invert }
+}
+
+fun List<String>.mostCommonLettersAtIndices(keep: Char = '1'): String {
+    val s = StringBuilder()
+    repeat(this.first().length) {
+        s.append(this.mostCommonCharacter(it))
+    }
+    return s.toString()
+}
+
+fun List<String>.mostCommonCharacter(position: Int): Char {
+    return count { it[position] == '1' }.let { if (it >= size - it) '1' else '0' }
 }

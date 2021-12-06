@@ -545,7 +545,8 @@ object Helpers {
         fun rotateRight(times: Int = 1) {   // rotate in place
             repeat(times) {
                 grid =
-                    grid.flatMap { it.withIndex() }.groupBy({ (i, _) -> i }, { (_, v) -> v }).map { (_, v) -> v.reversed() }
+                    grid.flatMap { it.withIndex() }.groupBy({ (i, _) -> i }, { (_, v) -> v })
+                        .map { (_, v) -> v.reversed() }
             }
         }
 
@@ -582,6 +583,35 @@ object Helpers {
     }
 }
 
+@ExperimentalUnsignedTypes
+fun jellyFishSolver(jellyFish: List<Pair<Int, ULong>>, iterations: Int): ULong {
+    var fish = jellyFish.toMutableList()
+    repeat(iterations) {
+        val new = mutableListOf<Pair<Int, ULong>>()
+        for (i in fish) {
+            if (i.first == 0) {
+                new.add(Pair(8, i.second))
+
+                var t: ULong = 0u
+                if (fish.any { it.first == 6 }) {
+                    t = new.filter { it.first == 6 }.sumOf { it.second }
+                    new.removeAll { it.first == 6 }
+                }
+                new.add(Pair(6, i.second + t))
+
+            } else {
+                var t: ULong = 0u
+                if (fish.any { it.first == i.first - 1 }) {
+                    t = new.filter { it.first == i.first - 1 }.sumOf { it.second }
+                    new.removeAll { it.first == i.first - 1 }
+                }
+                new.add(Pair(i.first - 1, i.second + t))
+            }
+        }
+        fish = new
+    }
+    return fish.sumOf { it.second }
+}
 class BingoBoard(private var board: List<MutableList<Int?>>) {
 
     private val original = board.clone()

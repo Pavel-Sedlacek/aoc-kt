@@ -25,8 +25,8 @@ interface Day<R> {
         val p2s = p2()
         println("$printOffset ${c.elapsed()} ms")
 
-        print("${printOffset * 2}part one: $p1s")
-        print("${printOffset * 2}part two: $p2s")
+        println("${printOffset * 2}part one => $p1s")
+        println("${printOffset * 2}part two => $p2s")
         println()
     }
 
