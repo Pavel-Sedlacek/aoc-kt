@@ -98,3 +98,11 @@ fun List<String>.mostCommonLettersAtIndices(keep: Char = '1'): String {
 fun List<String>.mostCommonCharacter(position: Int): Char {
     return count { it[position] == '1' }.let { if (it >= size - it) '1' else '0' }
 }
+
+fun Long.incrementalCount(): Long {
+    var acc = 0L
+    for (i in 0..this) {
+        acc += i
+    }
+    return acc
+}

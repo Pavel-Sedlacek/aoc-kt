@@ -11,9 +11,8 @@ class Day05 : Day<Int> {
     val input = file.asLines().map { lines ->
         val x = lines.split(" -> ")
         x[0].split(",").let { f ->
-            x[1].split(",").let { t ->
-                Line(Coordinates(f[0].toInt(), f[1].toInt()), Coordinates(t[0].toInt(), t[1].toInt()))
-            }
+            x[1].split(",")
+                .let { t -> Line(Coordinates(f[0].toInt(), f[1].toInt()), Coordinates(t[0].toInt(), t[1].toInt())) }
         }
     }
 
@@ -23,5 +22,3 @@ class Day05 : Day<Int> {
 
     private fun partTwo(input: List<Line>): Int = overlappingVentsSolver(input)
 }
-
-

@@ -4,6 +4,7 @@ import utils.collections.Coordinates
 import utils.collections.clone
 import utils.collections.cloneMutable
 import utils.common.not
+import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.sqrt
 import kotlin.reflect.KFunction1
@@ -334,7 +335,7 @@ object Helpers {
         }
     }
 
-    fun solver(
+    fun switchingLightSolver(
         input: List<List<String>>,
         off: KFunction1<Light, Unit>,
         on: KFunction1<Light, Unit>,
@@ -652,3 +653,14 @@ fun overlappingVentsSolver(input: List<Line>): Int {
     }
     return ventMap.values.count { it > 1 }
 }
+
+
+fun crabFuelUsageSolver(input: List<Int>, transformer: (Long) -> Long = { x -> x }): Long {
+    val li = mutableListOf<Long>()
+    for (i in 0 until (input.maxOrNull() ?: 0)) {
+        val x = (input.sumOf { transformer(abs(it - i).toLong()) })
+        li.add(x)
+    }
+    return li.minOrNull() ?: 0
+}
+

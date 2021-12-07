@@ -2,7 +2,7 @@ package y2015
 
 import utils.Day
 import utils.Helpers.Light
-import utils.Helpers.solver
+import utils.Helpers.switchingLightSolver
 import utils.readers.asLines
 
 class Day06 : Day<Int> {
@@ -12,9 +12,9 @@ class Day06 : Day<Int> {
     override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
     private fun partOne(input: List<List<String>>): Int =
-        solver(input, Light::off1, Light::on1, Light::toggle1)
+        switchingLightSolver(input, Light::off1, Light::on1, Light::toggle1)
 
     private fun partTwo(input: List<List<String>>): Int =
-        solver(input, Light::off2, Light::on2, Light::toggle2)
+        switchingLightSolver(input, Light::off2, Light::on2, Light::toggle2)
 }
 
