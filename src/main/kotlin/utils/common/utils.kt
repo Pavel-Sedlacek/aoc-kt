@@ -87,6 +87,8 @@ fun List<String>.filterByCommonDigit(position: Int, invert: Boolean): List<Strin
     return filter { (it[position] == commonDigit) xor invert }
 }
 
+operator fun Int.contains(values: List<Int>): Boolean = values.contains(this)
+
 fun List<String>.mostCommonLettersAtIndices(keep: Char = '1'): String {
     val s = StringBuilder()
     repeat(this.first().length) {
