@@ -108,3 +108,5 @@ fun Long.incrementalCount(): Long {
     }
     return acc
 }
+
+fun <E> List<E>.middle(): E? = this.getOrNull(this.size / 2)
