@@ -4,6 +4,7 @@ import utils.YearExecutor
 
 object Exec2021 : YearExecutor {
 
+    @ExperimentalStdlibApi
     @ExperimentalUnsignedTypes
     override fun execute() {
         val days = listOf(
