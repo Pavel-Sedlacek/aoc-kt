@@ -83,7 +83,7 @@ fun String.binaryInverse(): String {
 
 fun List<String>.filterByCommonDigit(position: Int, invert: Boolean): List<String> {
     if (size == 1) return this
-    val commonDigit = this.mostCommonCharacter(position)
+    val commonDigit = this.mostCommonCharacterAt(position)
     return filter { (it[position] == commonDigit) xor invert }
 }
 
@@ -92,13 +92,26 @@ operator fun Int.contains(values: List<Int>): Boolean = values.contains(this)
 fun List<String>.mostCommonLettersAtIndices(keep: Char = '1'): String {
     val s = StringBuilder()
     repeat(this.first().length) {
-        s.append(this.mostCommonCharacter(it))
+        s.append(this.mostCommonCharacterAt(it))
     }
     return s.toString()
 }
 
-fun List<String>.mostCommonCharacter(position: Int): Char {
+fun List<String>.mostCommonCharacterAt(position: Int): Char {
     return count { it[position] == '1' }.let { if (it >= size - it) '1' else '0' }
+}
+
+fun String.mostCommonCharacter(): Char? {
+    return this.toList().groupBy { it }.map { it.key to it.value.count() }.maxByOrNull { it.second }?.first
+}
+fun String.leastCommonCharacter(): Char? {
+    return this.toList().groupBy { it }.map { it.key to it.value.count() }.minByOrNull { it.second }?.first
+}
+fun String.mostCommonCharacterCount(): Int? {
+    return this.toList().groupBy { it }.map { it.key to it.value.count() }.maxOfOrNull { it.second }
+}
+fun String.leastCommonCharacterCount(): Int? {
+    return this.toList().groupBy { it }.map { it.key to it.value.count() }.minOfOrNull { it.second }
 }
 
 fun Long.incrementalCount(): Long {
