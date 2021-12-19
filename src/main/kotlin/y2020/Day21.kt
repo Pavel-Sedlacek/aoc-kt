@@ -17,7 +17,7 @@ class Day21 : Day<String> {
             if (first) lhs.toMutableSet() else acc!!.apply { retainAll(lhs) }
         }.toMap()
 
-    override fun runAll() = super.run({ partOne(input, mapping) }, { partTwo(mapping) })
+    override fun runAll() = super.run({ partOne(input, mapping) }) { partTwo(mapping) }
 
     private fun partOne(input: List<Pair<List<String>, List<String>>>, mapping: Map<String, Set<String>>): String {
         val exclude = mutableSetOf<String>().apply { mapping.values.forEach(::addAll) }

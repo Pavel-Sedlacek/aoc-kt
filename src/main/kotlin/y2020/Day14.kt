@@ -1,7 +1,7 @@
 package y2020
 
 import utils.Day
-import utils.Helpers.floatingValues
+import utils.helpers.y2020.floatingValues
 import utils.readers.asLines
 
 
@@ -9,7 +9,7 @@ class Day14 : Day<Long> {
 
     private val input = file.asLines()
 
-    override fun runAll() = super.run({ partOneFourteen(input) }, { partTwoFourteen(input) })
+    override fun runAll() = super.run({ partOneFourteen(input) }) { partTwoFourteen(input) }
 
     private fun partTwoFourteen(f: List<String>): Long {
         val mem = mutableMapOf<Long, Long>()

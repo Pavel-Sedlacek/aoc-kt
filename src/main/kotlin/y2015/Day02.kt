@@ -8,7 +8,7 @@ class Day02 : Day<Int> {
 
     private val input = file.asLines().map { it.split("x").map { it.toInt() } }
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(input: List<List<Int>>): Int {
         var area = 0

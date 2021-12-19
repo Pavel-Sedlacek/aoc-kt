@@ -1,9 +1,9 @@
 package y2017
 
 import utils.Day
-import utils.Helpers
-import utils.Helpers.lengthOfSideWith
-import utils.Helpers.midpointsForSideLength
+import utils.helpers.y2017.GridOfExpandingNumbers
+import utils.helpers.y2017.lengthOfSideWith
+import utils.helpers.y2017.midpointsForSideLength
 import utils.readers.asInt
 import kotlin.math.abs
 
@@ -11,7 +11,7 @@ class Day03 : Day<Int> {
 
     private val input = file.asInt()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     fun partOne(input: Int): Int {
         val sideLength = lengthOfSideWith(input)
@@ -21,7 +21,7 @@ class Day03 : Day<Int> {
     }
 
     private fun partTwo(input: Int) =
-        Helpers.Grid(lengthOfSideWith(input))
+        GridOfExpandingNumbers(lengthOfSideWith(input))
             .generateSpots()
             .first { it > input }
 }

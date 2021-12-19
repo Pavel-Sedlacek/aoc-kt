@@ -1,7 +1,7 @@
 package y2015
 
 import utils.Day
-import utils.common.increment
+import utils.helpers.y2015.increment
 
 class Day11 : Day<String> {
 
@@ -10,7 +10,7 @@ class Day11 : Day<String> {
     override fun runAll() {
         val p1 = input.nextPassword()
         val p2 = p1.nextPassword()
-        super.run({ p1 }, { p2 })
+        super.run({ p1 }) { p2 }
     }
 
     private fun String.nextPassword(): String {

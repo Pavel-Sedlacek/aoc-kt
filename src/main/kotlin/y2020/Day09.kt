@@ -9,7 +9,7 @@ class Day09 : Day<Long> {
     override fun runAll() {
         val p1 = partOne(input)
 
-        super.run({ p1 }, { partTwo(input, p1) })
+        super.run({ p1 }) { partTwo(input, p1) }
     }
 
     private fun partOne(x: List<Long>): Long? {

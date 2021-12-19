@@ -1,17 +1,16 @@
 package y2021
 
 import utils.Day
-import utils.jellyFishSolver
+import utils.helpers.y2021.simulate
 import utils.readers.asIntsDividedBy
 
-@ExperimentalUnsignedTypes
-class Day06 : Day<ULong> {
+class Day06 : Day<Long> {
 
-    val input = file.asIntsDividedBy(",".toRegex()).groupBy { it }.map { it.key to it.value.size.toULong() }
+    private val numbers = file.asIntsDividedBy(",")
+    private val cache = mutableMapOf<Int, Long>()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    private fun partOne(numbers: List<Int>) = simulate(numbers, 80, cache)
+    private fun partTwo(numbers: List<Int>) = simulate(numbers, 256, cache)
 
-    private fun partOne(input: List<Pair<Int, ULong>>): ULong = jellyFishSolver(input, 80)
-
-    private fun partTwo(input: List<Pair<Int, ULong>>): ULong = jellyFishSolver(input, 256)
+    override fun runAll() = super.run({ partOne(numbers) }) { partTwo(numbers) }
 }

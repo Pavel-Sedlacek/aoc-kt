@@ -1,14 +1,14 @@
 package y2020
 
 import utils.Day
-import utils.Helpers.countDiagonalTrees
 import utils.collections.mut
+import utils.helpers.y2020.countDiagonalTrees
 import utils.readers.asLines
 
 class Day03 : Day<Long> {
     private val input = file.asLines()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(x: List<String>): Long {
         return countDiagonalTrees(3, 1, x.mut())

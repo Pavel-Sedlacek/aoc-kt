@@ -1,13 +1,13 @@
 package y2020
 
 import utils.Day
-import utils.Helpers.recursiveGo
+import utils.helpers.y2020.recursiveMiniIntCode
 import utils.readers.asLines
 
 class Day08 : Day<Int> {
     private val input = file.asLines()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(x: List<String>): Int {
         val visitedLines = (0..x.size).toMutableSet()
@@ -39,7 +39,7 @@ class Day08 : Day<Int> {
                     y[index] = "nop ${x[index].split(" ")[1]}"
                 else
                     y[index] = "jmp ${x[index].split(" ")[1]}"
-                val j = recursiveGo(y)
+                val j = recursiveMiniIntCode(y)
                 if (j != -1) return j
             }
         }

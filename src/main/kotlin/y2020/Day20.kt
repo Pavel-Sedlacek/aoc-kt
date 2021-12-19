@@ -1,10 +1,9 @@
 package y2020
 
 import utils.Day
-import utils.Helpers
-import utils.Helpers.Tile
-import utils.Helpers.calcWaterRoughness
-import utils.common.opposite
+import utils.helpers.y2020.Tile
+import utils.helpers.y2020.calcWaterRoughness
+import utils.helpers.y2020.opposite
 import utils.readers.asLinesSplitBy
 import java.util.*
 import kotlin.math.roundToInt
@@ -18,7 +17,7 @@ class Day20 : Day<Long> {
             it.drop(1).map { s -> s.map { c -> c == '#' } })
     }
 
-    override fun runAll() = super.run({ partOne(arrangeTiles(input)) }, {partTwo(arrangeTiles(input))})
+    override fun runAll() = super.run({ partOne(arrangeTiles(input)) }) { partTwo(arrangeTiles(input)) }
 
     private fun partOne(input: List<List<Tile>>): Long {
         return input.first().first().id * input.first().last().id * input.last().first().id * input.last().last().id

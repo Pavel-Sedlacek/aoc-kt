@@ -1,8 +1,8 @@
 package y2015
 
 import utils.Day
-import utils.common.Patterns.number
-import utils.common.literalString
+import utils.common.RegexPatterns.number
+import utils.helpers.y2015.literalString
 
 class Day10 : Day<String> {
 
@@ -11,7 +11,7 @@ class Day10 : Day<String> {
     override fun runAll() {
         println("Day 10: number of numbers")
         val x = solve(input, 40)
-        super.run({ x }, { solve(x, 10) })
+        super.run({ x }) { solve(x, 10) }
     }
 
     private fun solve(str: String, iterations: Int): String {

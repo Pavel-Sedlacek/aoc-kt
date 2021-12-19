@@ -12,6 +12,7 @@ fun String.asLines(): List<String> = this.trim().lines()
 
 fun String.asLongs(): List<Long> = this.asLines().map { it.toLong() }
 
+fun String.asIntsDividedBy(separator: String): List<Int> = this.trim().split(separator).map { it.toInt() }
 fun String.asIntsDividedBy(separator: Regex): List<Int> = this.trim().split(separator).map { it.toInt() }
 
 fun String.asLinesSplitBy(separator: Regex): List<String> = this.trim().split(separator)

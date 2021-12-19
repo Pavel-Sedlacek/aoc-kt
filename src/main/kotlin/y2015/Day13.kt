@@ -13,9 +13,8 @@ class Day13 : Day<Int> {
         }
 
     override fun runAll() = super.run(
-        { partOne(input, input.keys.flatMap { listOf(it.first, it.second) }.toSet().allPermutations()) },
-        { partTwo(input) }
-    )
+        { partOne(input, input.keys.flatMap { listOf(it.first, it.second) }.toSet().allPermutations()) }
+    ) { partTwo(input) }
 
     private fun partOne(input: Map<Pair<String, String>, Int>, permutations: Set<List<String>>): Int {
         return permutations.maxOf {

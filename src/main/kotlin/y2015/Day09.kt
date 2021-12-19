@@ -18,6 +18,6 @@ class Day09 : Day<Int> {
         }
     }
 
-    override fun runAll() = super.run({ permutations.minOrNull() }, { permutations.maxOrNull() })
+    override fun runAll() = super.run({ permutations.minOrNull() ?: 0 }) { permutations.maxOrNull() ?: 0 }
 }
 

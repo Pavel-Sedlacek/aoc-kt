@@ -16,7 +16,7 @@ class Day11 : Day<Int> {
         Pair(1, 1))
     var x = Array(5) { CharArray(5) { '.' } }
 
-    override fun runAll() = super.run({ partOne() }, { partTwo() })
+    override fun runAll() = super.run({ partOne() }) { partTwo() }
 
     //TODO
     private fun partOne(): Int = -1

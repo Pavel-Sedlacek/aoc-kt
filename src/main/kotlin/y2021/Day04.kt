@@ -1,41 +1,37 @@
 package y2021
 
-import utils.BingoBoard
 import utils.Day
+import utils.helpers.y2021.BingoBoard
 import utils.readers.asLinesSplitBy
 
 class Day04 : Day<Int> {
 
     private val input = file.asLinesSplitBy("\n\n")
-    private val numbers = input[0].split(",").map { it.toInt() }
-    private val boards = input.subList(1, input.size).map {
-        it.trim().lines().map { it.trim().split("\\s+".toRegex()).map { it.trim().toIntOrNull() }.toMutableList() }
-    }.map { BingoBoard(it) }
+    private val numbers: List<Int> = input[0].split(",").map { it.toInt() }
+    private val boards: List<BingoBoard> = input.drop(1).map { BingoBoard(it) }
 
-    override fun runAll() = super.run({ partOne(numbers, boards) }, { partTwo(numbers, boards) })
+    override fun runAll() = super.run({ partOne(numbers, boards) }) { partTwo(numbers, boards) }
 
-    private fun partOne(numbers: List<Int>, boards: List<BingoBoard>): Int {
-        boards.onEach { it.reset() }
-        for (i in numbers) {
-            boards.forEach { it.flip(i) }
-            val x = boards.find { it.isWinning() }
-            if (x != null)
-                return x.sum() * i
+    fun partOne(numbers: List<Int>, boards: List<BingoBoard>): Int {
+        numbers.forEach { number ->
+            boards.onEach { board -> board.mark(number) }
+                .firstOrNull { it.hasWon() }
+                ?.let { winningBoard ->
+                    return number * winningBoard.sumOfUnmarked()
+                }
         }
-        return 0
+        throw Exception()
     }
 
-    private fun partTwo(numbers: List<Int>, boards: List<BingoBoard>): Int {
-        var loosingBoard: BingoBoard? = null
-        for (i in numbers) {
-            boards.forEach { it.flip(i) }
-            if (loosingBoard?.isWinning() == true) return (loosingBoard?.sum() ?: 0) * i
-            if (loosingBoard == null) loosingBoard = boards.singleOrNull { !it.isWinning() }
+    fun partTwo(numbers: List<Int>, boards: List<BingoBoard>): Int {
+        numbers.fold(boards) { boardAccumulator, number ->
+            if (boardAccumulator.size == 1) {
+                boardAccumulator.first().apply { mark(number) }.takeIf { it.hasWon() }?.let {
+                    return number * it.sumOfUnmarked()
+                }
+            }
+            boardAccumulator.onEach { board -> board.mark(number) }.filterNot { it.hasWon() }
         }
-        return 0
+        throw Exception()
     }
 }
-
-
-
-

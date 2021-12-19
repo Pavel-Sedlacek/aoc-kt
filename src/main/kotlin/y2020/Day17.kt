@@ -25,7 +25,7 @@ class Day17 : Day<Int> {
             partTwo(grid2)
         }
 
-        super.run({ grid.values.count { it == '#' } }, { grid2.values.count { it == '#' } })
+        super.run({ grid.values.count { it == '#' } }) { grid2.values.count { it == '#' } }
     }
 
     private fun partOne(grid: MutableMap<Triple<Int, Int, Int>, Char>) {

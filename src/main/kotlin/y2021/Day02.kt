@@ -5,33 +5,41 @@ import utils.readers.asLines
 
 class Day02 : Day<Int> {
 
-    val input = file.asLines()
+    val input = file.asLines().map { it.split(" ") }
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
-    private fun partOne(input: List<String>): Int {
-        return input.fold(Pair(0, 0)) { acc, i ->
-            i.split(" ").let {
-                when (it[0]) {
-                    "forward" -> Pair(acc.first + it[1].toInt(), acc.second)
-                    "up" -> Pair(acc.first, acc.second - it[1].toInt())
-                    "down" -> Pair(acc.first, acc.second + it[1].toInt())
-                    else -> acc
-                }
+    private fun partOne(input: List<List<String>>): Int {
+        var horizontal = 0
+        var depth = 0
+
+        input.forEach { (command, value) ->
+            when (command) {
+                "forward" -> horizontal += value.toInt()
+                "down" -> depth += value.toInt()
+                "up" -> depth -= value.toInt()
             }
-        }.let { it.first * it.second }
+        }
+
+        return horizontal * depth
     }
 
-    private fun partTwo(input: List<String>): Int {
-        return input.fold(Triple(0, 0, 0)) { acc, i ->
-            i.split(" ").let {
-                when (it[0]) {
-                    "forward" -> Triple(acc.first + it[1].toInt(), acc.second + (it[1].toInt() * acc.third), acc.third)
-                    "up" -> Triple(acc.first, acc.second, acc.third - it[1].toInt())
-                    "down" -> Triple(acc.first, acc.second, acc.third + it[1].toInt())
-                    else -> acc
+    private fun partTwo(input: List<List<String>>): Int {
+        var horizontal = 0
+        var depth = 0
+        var aim = 0
+
+        input.forEach { (command, value) ->
+            when (command) {
+                "forward" -> {
+                    horizontal += value.toInt()
+                    depth += aim * value.toInt()
                 }
+                "down" -> aim += value.toInt()
+                "up" -> aim -= value.toInt()
             }
-        }.let { it.first * it.second }
+        }
+
+        return horizontal * depth
     }
 }

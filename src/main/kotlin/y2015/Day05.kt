@@ -7,7 +7,7 @@ class Day05 : Day<Int> {
 
     private val input = file.asLines()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(input: List<String>) = input.fold(0) { acc, s ->
         if (s.matches("^.*[aeiou].*[aeiou].*[aeiou].*\$".toRegex()) &&

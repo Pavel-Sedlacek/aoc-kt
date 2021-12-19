@@ -1,40 +1,30 @@
 package y2021
 
 import utils.Day
+import utils.helpers.y2021.countPaths
 import utils.readers.asLines
 
 class Day12 : Day<Int> {
 
-    val input = mutableMapOf<String, Set<String>>().withDefault { setOf() }.apply {
-        file.trim().asLines().map { it.trim().split("-") }.forEach { (a, b) ->
-            put(a, getValue(a) + b)
-            put(b, getValue(b) + a)
-        }
-    }
+    private val connections = file.asLines()
+        .map { it.split("-") }
+        .flatMap { (begin, end) -> listOf(begin to end, end to begin) }
+        .filterNot { (_, end) -> end == "start" }
+        .groupBy({ it.first }, { it.second })
 
     override fun runAll() {
-        super.run({ partOne(input) }, { partTwo(input) })
+        super.run({ partOne(connections) }) { partTwo(connections) }
     }
 
-    private fun partOne(input: MutableMap<String, Set<String>>): Int = Route(input, false).allPaths.size
+    fun partOne(connections: Map<String, List<String>>): Int =
+        connections.countPaths { cave, currentPath ->
+            cave in currentPath
+        }
 
-    private fun partTwo(input: MutableMap<String, Set<String>>): Int = Route(input, true).allPaths.size
+    fun partTwo(connections: Map<String, List<String>>): Int =
+        connections.countPaths { cave, currentPath ->
+            val counts = currentPath.filter { it.first().isLowerCase() }.groupingBy { it }.eachCount()
+            cave in counts.keys && counts.any { it.value > 1 }
+        }
+
 }
-
-class Route(private val connections: MutableMap<String, Set<String>>, private val canVisitSmallTwice: Boolean) {
-    val allPaths = search("start", listOf())
-
-    private fun search(curr: String, path: List<String>): List<List<String>> {
-        val updatedPath = path + curr
-        if (curr == "end") return listOf(updatedPath)
-        return connections.getValue(curr).filterNot { next ->
-            next == "start" ||
-                    next.isSmallCave() && next in updatedPath &&
-                    if (canVisitSmallTwice) {
-                        updatedPath.filter { it.isSmallCave() }.groupingBy { it }.eachCount().values.any { it >= 2 }
-                    } else true
-        }.flatMap { search(it, updatedPath) }
-    }
-}
-
-fun String.isSmallCave() = this.all { it.isLowerCase() }

@@ -1,24 +1,37 @@
 package y2021
 
 import utils.Day
-import utils.Line
-import utils.collections.Coordinates
-import utils.overlappingVentsSolver
+import utils.helpers.y2021.Line
 import utils.readers.asLines
 
 class Day05 : Day<Int> {
 
-    val input = file.asLines().map { lines ->
-        val x = lines.split(" -> ")
-        x[0].split(",").let { f ->
-            x[1].split(",")
-                .let { t -> Line(Coordinates(f[0].toInt(), f[1].toInt()), Coordinates(t[0].toInt(), t[1].toInt())) }
+    private val lines = file.asLines()
+        .map { it.split(" -> ") }
+        .map { (start, end) -> Pair(start.split(","), end.split(",")) }
+        .map { (start, end) ->
+            Line(
+                start.first().toInt(),
+                start.last().toInt(),
+                end.first().toInt(),
+                end.last().toInt()
+            )
         }
+
+    override fun runAll() = super.run({ partOne(lines) }) { partTwo(lines) }
+
+    fun partOne(lines: List<Line>): Int {
+        return lines.filter { line -> line.x1 == line.x2 || line.y1 == line.y2 }
+            .flatMap { it.points() }
+            .groupingBy { it }
+            .eachCount()
+            .count { it.value > 1 }
     }
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
-
-    private fun partOne(input: List<Line>): Int = overlappingVentsSolver(input.filter { !it.isDiagonal() })
-
-    private fun partTwo(input: List<Line>): Int = overlappingVentsSolver(input)
+    fun partTwo(lines: List<Line>): Int {
+        return lines.flatMap { it.points() }
+            .groupingBy { it }
+            .eachCount()
+            .count { it.value > 1 }
+    }
 }

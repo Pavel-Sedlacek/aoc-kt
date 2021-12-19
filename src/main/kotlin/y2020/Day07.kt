@@ -1,7 +1,7 @@
 package y2020
 
 import utils.Day
-import utils.Helpers.Bags
+import utils.helpers.y2020.Bags
 import utils.readers.asLines
 
 class Day07 : Day<Int> {
@@ -10,7 +10,7 @@ class Day07 : Day<Int> {
     override fun runAll() {
         val bags = Bags(input)
 
-        super.run({ partOne(bags) }, { partTwo(bags) })
+        super.run({ partOne(bags) }) { partTwo(bags) }
     }
 
     private fun partOne(bags: Bags): Int {

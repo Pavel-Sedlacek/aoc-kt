@@ -1,66 +1,50 @@
 package y2021
 
 import utils.Day
-import utils.common.middle
+import utils.helpers.y2021.matching
+import utils.helpers.y2021.scoresCompletion
+import utils.helpers.y2021.scoresIllegal
 import utils.readers.asLines
 import java.util.*
 
 class Day10 : Day<Number> {
 
-    val input = file.asLines()
+    private val input = file.asLines()
 
-    override fun runAll() = super.run(
-        { partOne(input, mapOf(")" to 3, "]" to 57, "}" to 1197, ">" to 25137)) },
-        { partTwo(input, mapOf("(" to 1, "[" to 2, "{" to 3, "<" to 4)) }
-    )
+    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
 
-    fun partOne(lines: List<String>, scoreMap: Map<String, Int>): Long = lines.fold(0) { score, line ->
-        checkInvalid(line).let {
-            if (it != null) score + (scoreMap[it] ?: 0)
-            else score
-        }
-    }
-
-    fun partTwo(lines: List<String>, scoreMap: Map<String, Long>): Long =
-        lines.fold(mutableListOf()) { acc: MutableList<Long>, s: String ->
-            val rem = checkIncomplete(s).reversed()
-            acc.also {
-                if (rem.isNotEmpty()) {
-                    acc.add(rem.fold(0L) { c, i -> (5 * c) + (scoreMap[i] ?: 0) })
+    private fun partOne(input: List<String>): Int {
+        return input
+            .sumOf { line ->
+                with(ArrayDeque<Char>()) {
+                    line.sumOf { c ->
+                        when {
+                            c in matching.keys -> (0).also { addLast(c) }
+                            matching[removeLast()] != c -> scoresIllegal.getValue(c)
+                            else -> 0
+                        }
+                    }
                 }
             }
-        }.sorted().middle() ?: 0
-}
-
-fun checkInvalid(line: String): String? {
-    val stack = Stack<String>()
-
-    line.forEach {
-        if (listOf("{", "[", "<", "(").contains(it.toString())) {
-            stack.push(it.toString())
-        } else if (listOf("}", "]", ">", ")").contains(it.toString())) {
-            if (isNotMatch(stack.pop(), it.toString())) return it.toString()
-        }
     }
 
-    if (stack.peek() != "") return stack.peek()
-    return null
-}
-
-fun checkIncomplete(line: String): List<String> {
-    val stack = Stack<String>()
-    line.forEach {
-        if (listOf("{", "[", "<", "(").contains(it.toString())) {
-            stack.push(it.toString())
-        } else if (listOf("}", "]", ">", ")").contains(it.toString())) {
-            if (isNotMatch(stack.pop(), it.toString())) {
-                return listOf()
+    private fun partTwo(input: List<String>): Long {
+        return input
+            .map { line ->
+                with(ArrayDeque<Char>()) {
+                    line.forEach { c ->
+                        when {
+                            c in matching.keys -> addLast(c)
+                            matching[removeLast()] != c -> return@map null
+                        }
+                    }
+                    reversed()
+                        .map { matching.getValue(it) }
+                        .fold(0L) { acc, c -> (acc * 5 + scoresCompletion.getValue(c)) }
+                }
             }
-        }
+            .filterNotNull()
+            .sorted()
+            .let { it[it.size / 2] }
     }
-    if (stack.peek() != "") return stack.toList()
-    return listOf()
 }
-
-fun isNotMatch(openingBrace: String, closingBrace: String): Boolean =
-    closingBrace != (mapOf("(" to ")", "[" to "]", "{" to "}", "<" to ">")[openingBrace])

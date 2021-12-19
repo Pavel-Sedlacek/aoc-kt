@@ -1,10 +1,9 @@
 package y2020
 
 import utils.Day
-import utils.Helpers.refineEvalOne
-import utils.Helpers.refineEvalTwo
 import utils.readers.asLines
 
+// FIXME pls
 class Day18 : Day<Long> {
 
     private val input = file.asLines()
@@ -17,7 +16,7 @@ class Day18 : Day<Long> {
             sum2 += partTwo(input[it])
         }
 
-        super.run({ sum1 }, { sum2 })
+        super.run({ sum1 }) { sum2 }
     }
 
     private fun partOne(s: String): Long {
@@ -70,4 +69,46 @@ class Day18 : Day<Long> {
         }
         return refineEvalTwo(input)
     }
+}
+
+fun refineEvalOne(input: String): Long {
+    val parts = input.split(" ").toTypedArray()
+    var rv: Long = parts[0].toLong()
+    var i = 1
+    while (i < parts.size) {
+        when (parts[i]) {
+            "+" -> rv += (parts[i + 1]).toLong()
+            "*" -> rv *= (parts[i + 1]).toLong()
+            else -> throw IllegalStateException(parts[i + 1])
+        }
+        i += 2
+    }
+    return rv
+}
+
+fun refineEvalTwo(input: String): Long {
+    val parts: MutableList<String> = ArrayList(listOf(*input.split(" ").toTypedArray()))
+    run {
+        var i = 0
+        while (i < parts.size) {
+            if (parts[i] == "+") {
+                parts[i - 1] = (parts[i - 1].toLong() + parts[i + 1].toLong()).toString()
+                parts.removeAt(i)
+                parts.removeAt(i)
+                i--
+            }
+            i++
+        }
+    }
+    var i = 0
+    while (i < parts.size) {
+        if (parts[i] == "*") {
+            parts[i - 1] = ((parts[i - 1]).toLong() * (parts[i + 1]).toLong()).toString()
+            parts.removeAt(i)
+            parts.removeAt(i)
+            i--
+        }
+        i++
+    }
+    return (parts[0]).toLong()
 }

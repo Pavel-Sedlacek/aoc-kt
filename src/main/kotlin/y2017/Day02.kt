@@ -7,7 +7,7 @@ class Day02 : Day<Int> {
 
     private val input = file.asLines().map { it.split("\\s".toRegex()).map { it.toInt() } }
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(input: List<List<Int>>) = input.fold(0) { acc, c ->
         acc + c.maxOrNull()?.minus(c.minOrNull()!!)!!

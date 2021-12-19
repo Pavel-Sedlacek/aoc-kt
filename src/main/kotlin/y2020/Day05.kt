@@ -7,7 +7,7 @@ import utils.readers.asLines
 class Day05 : Day<Int> {
     private val input = file.asLines().toBinaryList()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(x: List<String>): Int {
         return x.fold(0) { max, element ->

@@ -1,6 +1,5 @@
 import y2021.Exec2021
 
-@OptIn(ExperimentalStdlibApi::class)
 fun main() {
     listOf(
 //        Exec2015,

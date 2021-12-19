@@ -8,7 +8,7 @@ class Day10 : Day<Long> {
 
     private val input = file.asLongs().modify { it.add(0, 0) }
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(input: List<Long>): Long {
         val x = input.sortedBy { it.toInt() }

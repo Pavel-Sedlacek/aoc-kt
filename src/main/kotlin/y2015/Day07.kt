@@ -1,7 +1,7 @@
 package y2015
 
 import utils.Day
-import utils.Helpers.Gate
+import utils.helpers.y2015.Gate
 import utils.readers.asLines
 
 class Day07 : Day<Int> {

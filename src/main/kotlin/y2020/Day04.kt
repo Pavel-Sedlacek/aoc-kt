@@ -1,14 +1,14 @@
 package y2020
 
 import utils.Day
-import utils.common.Patterns.passportExpectedFields
-import utils.common.Patterns.passportFieldPatterns
+import utils.common.RegexPatterns.passportExpectedFields
+import utils.common.RegexPatterns.passportFieldPatterns
 import utils.readers.asLines
 
 class Day04 : Day<Int> {
     private val input = file.asLines()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(passports: List<String>): Int =
         passports.count { passport -> passportExpectedFields.all { passport.contains(it) } }

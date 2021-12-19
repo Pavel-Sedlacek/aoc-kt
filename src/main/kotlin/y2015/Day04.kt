@@ -1,14 +1,14 @@
 package y2015
 
 import utils.Day
-import utils.common.md5
 import utils.common.toHex
+import utils.helpers.y2015.md5
 
 class Day04 : Day<Int> {
 
     private val input = file
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(input: String): Int {
         var x = 0

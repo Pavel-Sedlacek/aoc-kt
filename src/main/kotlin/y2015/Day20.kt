@@ -4,11 +4,11 @@ import utils.Day
 import utils.common.divisors
 import utils.readers.asInt
 
-class Day20() : Day<Int> {
+class Day20 : Day<Int> {
 
     private val input = file.asInt()
 
-    override fun runAll() = super.run({partOne(input)}, {-1})
+    override fun runAll() = super.run({ partOne(input) }) { -1 }
 
 
     private fun partOne(input: Int): Int {
@@ -20,6 +20,6 @@ class Day20() : Day<Int> {
 
 fun houseSequence() = sequence {
     for (i in 1 until Int.MAX_VALUE) {
-        yield(i.divisors().sumBy { it * 10 })
+        yield(i.divisors().sumOf { it * 10 })
     }
 }

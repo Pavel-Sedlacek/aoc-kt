@@ -1,17 +1,24 @@
 package y2021
 
 import utils.Day
-import utils.common.incrementalCount
-import utils.crabFuelUsageSolver
 import utils.readers.asIntsDividedBy
+import kotlin.math.abs
 
-class Day07 : Day<Long> {
+class Day07 : Day<Int> {
 
-    val input = file.asIntsDividedBy(",".toRegex())
+    val input = file.asIntsDividedBy(",".toRegex()).sorted()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
-    private fun partOne(input: List<Int>): Long = crabFuelUsageSolver(input)
+    fun partOne(input: List<Int>): Int {
+        val median = input[input.size / 2]
+        return input.sumOf { i -> abs(median - i) }
+    }
 
-    private fun partTwo(input: List<Int>): Long = crabFuelUsageSolver(input) { x -> x.incrementalCount() }
+    fun partTwo(input: List<Int>): Int {
+        val average = input.average().toInt()
+        return (average..average + 1).minOf { pos ->
+            input.sumOf { i -> ((1 + abs(pos - i)) * abs(pos - i) / 2) }
+        }
+    }
 }

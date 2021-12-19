@@ -9,7 +9,7 @@ class Day13 : Day<Long> {
 
     private val input = file.asLines()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input[1].split(",")) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input[1].split(",")) }
 
     private fun partTwo(s: List<String>): Long {
         val rem = mutableListOf<Int>()

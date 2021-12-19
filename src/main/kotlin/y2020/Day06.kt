@@ -6,7 +6,7 @@ import utils.readers.asLinesSplitBy
 class Day06 : Day<Int> {
     private val input = file.asLinesSplitBy("\\n\\n".toRegex())
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(input: List<String>): Int {
         var sum = 0

@@ -7,7 +7,7 @@ class Day15 : Day<Int> {
 
     private val input = file.asIntsDividedBy(",".toRegex())
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(input: List<Int>): Int {
         var x = input

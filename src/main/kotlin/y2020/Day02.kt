@@ -7,7 +7,7 @@ class Day02 : Day<Int> {
 
     private val input = file.asLines()
 
-    override fun runAll() = super.run({ partOne(input) }, { partTwo(input) })
+    override fun runAll() = super.run({ partOne(input) }) { partTwo(input) }
 
     private fun partOne(x: List<String>): Int =
         x.count { i ->

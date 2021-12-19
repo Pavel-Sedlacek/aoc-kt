@@ -30,5 +30,5 @@ interface Day<R> {
         println()
     }
 
-    fun run(p1: R?, p2: R?) = run({ p1 }, { p2 })
+    fun run(p1: R?, p2: R?) = run({ p1 }) { p2 }
 }
