@@ -6,9 +6,9 @@ fun main() {
         z.createNewFile()
         z.writeText(
             "package y2022\n" +
-                    "\n"+
+                    "\n" +
                     "import utils.Day\n" +
-                    "\n"+
+                    "\n" +
                     "class Day${(it + 1).toString().padStart(2, '0')} : Day<Int> {\n" +
                     "\n" +
                     "    val input = file\n" +

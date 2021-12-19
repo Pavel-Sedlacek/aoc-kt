@@ -6,14 +6,16 @@ import utils.readers.asLines
 class Day11 : Day<Int> {
 
     private val input = file.asLines()
-    val pairs = arrayListOf(Pair(1, 0),
+    val pairs = arrayListOf(
+        Pair(1, 0),
         Pair(-1, 0),
         Pair(0, -1),
         Pair(0, 1),
         Pair(-1, 1),
         Pair(1, -1),
         Pair(-1, -1),
-        Pair(1, 1))
+        Pair(1, 1)
+    )
     var x = Array(5) { CharArray(5) { '.' } }
 
     override fun runAll() = super.run({ partOne() }) { partTwo() }
