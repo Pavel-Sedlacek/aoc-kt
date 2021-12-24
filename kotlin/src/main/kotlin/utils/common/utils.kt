@@ -24,5 +24,3 @@ fun Int.divisors(): List<Int> {
     }
     return v
 }
-
-val <T1, T2> Pair<T1, T2>.flipped: Pair<T2, T1> get() = second to first
