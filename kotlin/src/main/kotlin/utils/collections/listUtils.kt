@@ -19,3 +19,12 @@ fun <Z> List<Z>.modify(modify: (it: MutableList<Z>) -> Unit): List<Z> {
 fun List<String>.asCharLines(): List<List<Char>> {
     return this.map { it.toCharArray().toList() }
 }
+
+fun <T> List<List<T>>.copy(mut: Boolean = false): List<List<T>> =
+    this.map { if (mut) it.toMutableList() else it.toList() }
+
+fun <T> List<List<T>>.applyCoordinates(): Map<Coordinates, T> {
+    val m = mutableMapOf<Coordinates, T>()
+    for (y in this.indices) for (x in this[y].indices) m[Coordinates(x, y)] = this[y][x]
+    return m
+}

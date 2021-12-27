@@ -10,15 +10,14 @@ class Cuboid(val on: Boolean, val x: IntRange, val y: IntRange, val z: IntRange)
     fun volume(): Long = (x.size().toLong() * y.size().toLong() * z.size().toLong()) * if (on) 1 else -1
 
     infix fun intersect(other: Cuboid): Cuboid? {
-        return when (x.intersects(other.x) && y.intersects(other.y) && z.intersects(other.z)) {
-            true -> Cuboid(
+        return if (x.intersects(other.x) && y.intersects(other.y) && z.intersects(other.z))
+            Cuboid(
                 !on,
                 maxOf(x.first, other.x.first)..minOf(x.last, other.x.last),
                 maxOf(y.first, other.y.first)..minOf(y.last, other.y.last),
                 maxOf(z.first, other.z.first)..minOf(z.last, other.z.last),
             )
-            false -> null
-        }
+        else null
     }
 
     private fun IntRange.size() = last - first + 1

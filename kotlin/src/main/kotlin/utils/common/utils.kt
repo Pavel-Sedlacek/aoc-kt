@@ -1,12 +1,15 @@
 package utils.common
 
+import kotlin.math.abs
 import kotlin.math.pow
 
 fun Any.log() {
     println(this)
 }
 
-fun Int.isOdd(): Boolean = this % 2 != 0
+fun Int.isOdd(): Boolean = this % 2 == 1
+fun Int.isEven(): Boolean = this % 2 == 0
+
 fun gcd(a: Long, b: Long): Long = if (b == 0L) a else gcd(b, a % b)
 fun lcm(a: Long, b: Long): Long = a / gcd(a, b) * b
 
@@ -23,4 +26,10 @@ fun Int.divisors(): List<Int> {
         if (this % i == 0) v.add(i)
     }
     return v
+}
+
+fun Int.wrap(min: Int, max: Int): Int {
+    if (this in min until max) return this
+    if (this < min) return max - abs(this)
+    return (this - abs(max)).wrap(min, max)
 }
