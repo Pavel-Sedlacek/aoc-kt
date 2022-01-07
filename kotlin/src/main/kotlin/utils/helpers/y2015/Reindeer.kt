@@ -8,19 +8,18 @@ enum class State {
 data class Reindeer(
     val speed: Int,
     val speedDuration: Int,
-    val restDuration: Int,
-    var distanceTraveled: Int = 0,
-    var restRemaining: Int = 0,
-    var speedRemaining: Int = speedDuration,
-    var state: State = State.SPEEDING,
-    var score: Int = 0,
+    val restDuration: Int
 ) {
+
+    var distanceTraveled: Int = 0
+    private var restRemaining: Int = 0
+    private var speedRemaining: Int = speedDuration
+    private var state: State = State.SPEEDING
+    var score: Int = 0
+
     fun move() {
-        if (state == State.SPEEDING) {
-            go()
-        } else {
-            stop()
-        }
+        if (state == State.SPEEDING) go()
+        else stop()
     }
 
     private fun go() {
