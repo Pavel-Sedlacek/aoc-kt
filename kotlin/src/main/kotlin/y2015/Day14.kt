@@ -9,19 +9,19 @@ class Day14 : Day<Int> {
 
     private val input = file.asLines().map {
         it.split(" ").let { a ->
-            a[0] to Reindeer(a[3].toInt(), a[6].toInt(), a[13].toInt())
+            Reindeer(a[3].toInt(), a[6].toInt(), a[13].toInt())
         }
     }
 
     override fun runAll() {
         repeat(2503) { _ ->
-            this.input.forEach { it.second.move() }
-            this.input.maxByOrNull { it.second.distanceTraveled }!!.second.score++
+            this.input.forEach { it.move() }
+            this.input.maxByOrNull { it.distanceTraveled }!!.score++
         }
         super.run({ partOne(input) }) { partTwo(input) }
     }
 
-    private fun partOne(input: List<Pair<String, Reindeer>>): Int = input.maxOf { it.second.distanceTraveled }
+    private fun partOne(input: List<Reindeer>): Int = input.maxOf { it.distanceTraveled }
 
-    private fun partTwo(input: List<Pair<String, Reindeer>>): Int = input.maxOf { it.second.score }
+    private fun partTwo(input: List<Reindeer>): Int = input.maxOf { it.score }
 }
