@@ -1,7 +1,3 @@
 package utils.collections
 
-fun Iterable<Int>.product(): Int {
-    var x = 1
-    for (i in this) x *= i
-    return x
-}
+fun Iterable<Int>.product(): Int = this.fold(0) { acc, i -> acc * i }

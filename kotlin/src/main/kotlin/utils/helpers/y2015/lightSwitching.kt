@@ -1,6 +1,6 @@
 package utils.helpers.y2015
 
-import utils.collections.Coordinates
+import utils.common.coordinates.Coordinates2D
 import kotlin.reflect.KFunction1
 
 fun switchingLightSolver(
@@ -10,8 +10,8 @@ fun switchingLightSolver(
     toggle: KFunction1<Light, Unit>,
 ): Int = initLights().also { lights ->
     input.onEach { line ->
-        val from = Coordinates(0, 0)
-        val to = Coordinates(0, 0)
+        val from = Coordinates2D(0, 0)
+        val to = Coordinates2D(0, 0)
         val fn: KFunction1<Light, Unit> = when {
             line[0] == "toggle" -> toggle
             else -> if (line[1] == "on") on else off
